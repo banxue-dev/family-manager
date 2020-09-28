@@ -127,6 +127,7 @@ public class MenuController {
 			//只要要展示且类型为菜单的
 			menu.setIfShow(0);
 			menu.setMenuType(0);
+			menu.setCatchType(0);
 			List<Integer> roleIds=userRoleMapper.getUserRoleByUserId(userId);
 			if(roleIds.size()<1) {
 				return ResultUtil.success("用户暂无权限");

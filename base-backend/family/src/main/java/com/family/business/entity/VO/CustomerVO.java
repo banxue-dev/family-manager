@@ -4,8 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.family.utils.OrgCodeGreater;
+import java.math.BigDecimal;
 import com.family.utils.StringUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,10 +12,10 @@ import java.util.Date;
 /** 
 * Customer实体层 
 * Auther:feng
-* Date:2020-09-23 15:02:48
+* Date:2020-09-28 15:54:03
 */ 
 
-@ApiModel("业务下的客户")
+@ApiModel("业务的客户")
 public class CustomerVO {
 	private static final long serialVersionUID = 1L;
 	@ApiModelProperty(value = "主键",example="1")
@@ -24,15 +23,6 @@ public class CustomerVO {
 
 	@ApiModelProperty(value = "名称")
 	private String customerName;
-
-	@ApiModelProperty(value = "描述")
-	private String customerDesc;
-
-	@ApiModelProperty(value = "创建时间")
-	private String createTime;
-
-	@ApiModelProperty(value = "创建人")
-	private String createUser;
 
 	@ApiModelProperty(value = "地址")
 	private String customerAddr;
@@ -43,26 +33,21 @@ public class CustomerVO {
 	@ApiModelProperty(value = "联系电话")
 	private String customerContactPhone;
 
-	@ApiModelProperty(value = "地址图片")
-	private String customerAddrImg;
+	@ApiModelProperty(value = "邮箱")
+	private String customerMail;
 
-	@ApiModelProperty(value = "邮编")
-	private String customerMailCode;
+	@ApiModelProperty(value = "成交金额",example="1")
+	private BigDecimal customerPrice;
 
-	@ApiModelProperty(value = "组织的logo")
-	private String customerLogo;
-
-	@ApiModelProperty(value = "组织机构")
+	@ApiModelProperty(value = "组织代码-唯一，用来做数据隔离,自动生成")
 	private String orgCode;
 
+	@ApiModelProperty(value = "创建时间")
+	private String createTime;
 
-	
-	public String getOrgCode() {
-		return OrgCodeGreater.encode(this.orgCode);
-	}
-	public void setOrgCode(String orgCode) {
-		this.orgCode = orgCode;
-	}
+	@ApiModelProperty(value = "备注")
+	private String customerDesc;
+
 
 	/**
 	 *主键
@@ -87,42 +72,6 @@ public class CustomerVO {
 	 */ 
 	public String getCustomerName(){
 		return customerName;
-	}
-	/**
-	 *描述
-	 */ 
-	public void setCustomerDesc(String customerDesc){
-		this.customerDesc=customerDesc;
-	}
-	/**
-	 *描述
-	 */ 
-	public String getCustomerDesc(){
-		return customerDesc;
-	}
-	/**
-	 *创建时间
-	 */ 
-	public void setCreateTime(String createTime){
-		this.createTime=createTime;
-	}
-	/**
-	 *创建时间
-	 */ 
-	public String getCreateTime(){
-		  if(StringUtils.isNotNull(createTime)) {if(createTime.contains(".0")) {return createTime.replace(".0", "");}}return createTime;
-	}
-	/**
-	 *创建人
-	 */ 
-	public void setCreateUser(String createUser){
-		this.createUser=createUser;
-	}
-	/**
-	 *创建人
-	 */ 
-	public String getCreateUser(){
-		return createUser;
 	}
 	/**
 	 *地址
@@ -161,40 +110,64 @@ public class CustomerVO {
 		return customerContactPhone;
 	}
 	/**
-	 *地址图片
+	 *邮箱
 	 */ 
-	public void setCustomerAddrImg(String customerAddrImg){
-		this.customerAddrImg=customerAddrImg;
+	public void setCustomerMail(String customerMail){
+		this.customerMail=customerMail;
 	}
 	/**
-	 *地址图片
+	 *邮箱
 	 */ 
-	public String getCustomerAddrImg(){
-		return customerAddrImg;
+	public String getCustomerMail(){
+		return customerMail;
 	}
 	/**
-	 *邮编
+	 *成交金额
 	 */ 
-	public void setCustomerMailCode(String customerMailCode){
-		this.customerMailCode=customerMailCode;
+	public void setCustomerPrice(BigDecimal customerPrice){
+		this.customerPrice=customerPrice;
 	}
 	/**
-	 *邮编
+	 *成交金额
 	 */ 
-	public String getCustomerMailCode(){
-		return customerMailCode;
+	public BigDecimal getCustomerPrice(){
+		return customerPrice;
 	}
 	/**
-	 *组织的logo
+	 *组织代码-唯一，用来做数据隔离,自动生成
 	 */ 
-	public void setCustomerLogo(String customerLogo){
-		this.customerLogo=customerLogo;
+	public void setOrgCode(String orgCode){
+		this.orgCode=orgCode;
 	}
 	/**
-	 *组织的logo
+	 *组织代码-唯一，用来做数据隔离,自动生成
 	 */ 
-	public String getCustomerLogo(){
-		return customerLogo;
+	public String getOrgCode(){
+		return com.family.utils.OrgCodeGreater.encode(orgCode);
+	}
+	/**
+	 *创建时间
+	 */ 
+	public void setCreateTime(String createTime){
+		this.createTime=createTime;
+	}
+	/**
+	 *创建时间
+	 */ 
+	public String getCreateTime(){
+		  if(StringUtils.isNotNull(createTime)) {if(createTime.contains(".0")) {return createTime.replace(".0", "");}}return createTime;
+	}
+	/**
+	 *备注
+	 */ 
+	public void setCustomerDesc(String customerDesc){
+		this.customerDesc=customerDesc;
+	}
+	/**
+	 *备注
+	 */ 
+	public String getCustomerDesc(){
+		return customerDesc;
 	}
 }
 

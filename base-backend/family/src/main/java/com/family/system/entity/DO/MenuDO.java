@@ -38,9 +38,6 @@ public class MenuDO {
 	@ApiModelProperty(value = "角色ids",example="1")
 	private List<Integer> roleIds;
 
-	@ApiModelProperty(value = "获取类型，0：左侧菜单，1：赋权",example="1")
-	private int catchType=0;
-
 	@ApiModelProperty(value = "url")
 	private String menuUrl;
 
@@ -56,13 +53,15 @@ public class MenuDO {
 	@ApiModelProperty(value = "菜单类型",example="1")
 	private Integer menuType;
 
+	private Integer catchType;//是否是获取菜单配置
 	
 	
 	
-	public int getCatchType() {
-		return catchType;
+	
+	public Integer getCatchType() {
+		return catchType==null?0:catchType;
 	}
-	public void setCatchType(int catchType) {
+	public void setCatchType(Integer catchType) {
 		this.catchType = catchType;
 	}
 	public List<Integer> getRoleIds() {

@@ -1,13 +1,13 @@
 
 
-  <title>客户列表</title>
+  <title>行情客户列表</title>
 
   <div class="layui-card layadmin-header">
     <div class="layui-breadcrumb" lay-filter="breadcrumb">
       <a lay-href="">主页</a>
       <a><cite>业务设置</cite></a>
-      <a><cite>客户设置</cite></a>
-      <a><cite>客户列表</cite></a>
+      <a><cite>行情客户设置</cite></a>
+      <a><cite>行情客户列表</cite></a>
     </div>
   </div>
   
@@ -15,19 +15,19 @@
     <div class="layui-row layui-col-space15">
       <div class="layui-col-md12">
         <div class="layui-card">
-          <div class="layui-card-header">客户列表</div>
+          <div class="layui-card-header">行情客户列表</div>
           <div class="layui-card-body">
              <div style="padding-bottom: 10px; ">
 
               <script type="text/html" template >
 
               {{# layui.each(layui.data(layui.setter.tableName)[layui.setter.request.userAuthName], function(index, item){ 
-                  if(item=='addCustomer'){
+                  if(item=='addpersonalInfo'){
                 }}
-                        <button class="layui-btn layuiadmin-btn-customer" data-type="add"><i class="layui-icon">&#xe608;</i> 添加
+                        <button class="layui-btn layuiadmin-btn-personalInfo" data-type="add"><i class="layui-icon">&#xe608;</i> 添加
                       </button>
 
-                      <button class="layui-btn layuiadmin-btn-customer  layui-btn-danger" data-type="batchdel"><i
+                      <button class="layui-btn layuiadmin-btn-personalInfo  layui-btn-danger" data-type="batchdel"><i
                               class="layui-icon">&#xe640;</i>删除
                       </button>
                         
@@ -37,16 +37,16 @@
                     
                 </script>
             </div>
-            <table class="layui-hide" id="customer_table" lay-filter="customer_table"></table>
+            <table class="layui-hide" id="personalInfo_table" lay-filter="personalInfo_table"></table>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <script type="text/html" id="customer_oper_col">
+  <script type="text/html" id="personalInfo_oper_col">
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
     {{# layui.each(layui.data(layui.setter.tableName)[layui.setter.request.userAuthName], function(index, item){ 
-        if(item=='addCustomer'){
+        if(item=='addPersonalInfo'){
       }}
               
           <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>           
@@ -62,18 +62,18 @@
     ,view = layui.view
     ,table = layui.table
     ,form = layui.form
-    ,requrl=layui.setter.backuprequesturl+'customer'+layui.setter.reqver;
+    ,requrl=layui.setter.backuprequesturl+'personalInfo'+layui.setter.reqver;
     //console.log(layui.data(layui.setter.tableName)[layui.setter.request.userAuthName]);
     table.render({
-      elem: '#customer_table'
-      ,url: layui.setter.backuprequesturl+'customer'+layui.setter.reqver+'getCustomerListByPage'
+      elem: '#personalInfo_table'
+      ,url: requrl+'getPersonalInfoListByPage'
       ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
       ,headers:layui.setter.headers
       ,page:layui.setter.page
       ,where:layui.setter.authParams
       ,cols: [[
-        {type: 'checkbox', fixed: 'left', title: ''}
-        ,{field:'customerName',  title: '客户名'}
+         {type: 'checkbox', fixed: 'left', title: ''}
+        ,{field:'customerName',  title: '行情客户名'}
         ,{field:'customerAddr',  title: '地址'}
         ,{field:'customerContactPersonal',  title: '联系人'}
         ,{field:'customerContactPhone',  title: '联系电话'}
@@ -84,21 +84,21 @@
         ,{field:'customerId',  hide:true}
         ,{field:'orgCode',  hide:true}
         ,{field:'createTime', title: '创建时间',sort:true}
-        ,{templet: '#customer_oper_col', fixed: 'right', title: '操作', align: 'center'}
+        ,{templet: '#personalInfo_oper_col', fixed: 'right', title: '操作', align: 'center'}
       ]]
     });
     
-    table.on('tool(customer_table)', function (obj) {
+    table.on('tool(personalInfo_table)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
-                 delCustomer(data.customerId);
+                 delpersonalInfo(data.personalInfoId);
             } else if (obj.event === 'edit') {
-                addNewCustomer(data,'编辑客户','business/customer/customer_add','mod');
+                addNewpersonalInfo(data,'编辑行情客户','gold/personalInfo/personalInfo_add','mod');
             } 
         })
     var active = {
       batchdel: function(){
-        var checkStatus = table.checkStatus('customer_table')
+        var checkStatus = table.checkStatus('personalInfo_table')
         ,checkData = checkStatus.data; //得到选中的数据
 
         if(checkData.length === 0){
@@ -106,32 +106,32 @@
         }
         var lineIds="";
         checkData.forEach(function (value,i) {
-            //lineIds.push(value.customerId);
-            lineIds+=value.customerId;
+            //lineIds.push(value.personalInfoId);
+            lineIds+=value.personalInfoId;
             if(i<checkData.length-1){
               lineIds+=',';
             }
         })
-        delCustomer(lineIds);
+        delpersonalInfo(lineIds);
       }
       
       //添加
       ,add: function(othis){
-        addNewCustomer({parentId:0},'添加客户','business/customer/customer_add','add');
+        addNewpersonalInfo({parentId:0},'添加行情客户','gold/personalInfo/personalInfo_add','add');
       }
     }; 
-    function delCustomer(params){
+    function delpersonalInfo(params){
       layer.confirm('确定删除吗？', function(index) {
             
             admin.req({
-            url:requrl+'delCustomer',
+            url:requrl+'delpersonalInfo',
             traditional:true,
-            data:{customerIds:params},
+            data:{personalInfoIds:params},
             success:function(res){
               if(res.code=='000000'){
 
                 //执行 Ajax 后重载
-                table.reload('customer_table');
+                table.reload('personalInfo_table');
                 layer.msg('已删除');
               }else{
                 layer.msg(res.msg);
@@ -141,7 +141,7 @@
           });
         });
     }
-    function addNewCustomer(params,title,url,treq){
+    function addNewpersonalInfo(params,title,url,treq){
       admin.popup({
           title: title
           ,area: ['550px', '550px']
@@ -149,17 +149,17 @@
           ,success: function(layero, index){
             view(this.id).render(url).done(function(){
               params.hideOrgCode=params.orgCode;
-              form.val('business_customer_add_form', params);
+              form.val('gold_personalInfo_add_form', params);
               //监听提交
               form.on('submit(layuiadmin-app-form-submit)', function(data){
                 var field = data.field; //获取提交的字段
                 
                 //提交 Ajax 成功后，关闭当前弹层并重载表格
                 admin.req({
-                  url:requrl+treq+'Customer',
+                  url:requrl+treq+'personalInfo',
                   data:field,
                   done:function(res){
-                    layui.table.reload('customer_table'); //重载表格
+                    layui.table.reload('personalInfo_table'); //重载表格
                     layer.close(index); //执行关闭 
                     layer.closeAll('loading');
                   }
@@ -170,7 +170,7 @@
         });
     }
 
-    $('.layui-btn.layuiadmin-btn-customer').on('click', function(){
+    $('.layui-btn.layuiadmin-btn-personalInfo').on('click', function(){
       var type = $(this).data('type');
       active[type] ? active[type].call(this) : '';
     });

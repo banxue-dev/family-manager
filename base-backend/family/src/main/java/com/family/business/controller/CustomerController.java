@@ -27,13 +27,13 @@ import com.family.utils.ResultUtil;
 import com.family.utils.StringUtils;  
 
 /** 
-* 业务下的客户控制器 
+* 业务的客户控制器 
 * Auther:feng
-* Date:2020-09-23 15:02:48
+* Date:2020-09-28 15:54:03
 */ 
 @RestController 
 @RequestMapping("customer/v1.0") 
-@Api(tags = "业务下的客户的接口") 
+@Api(tags = "业务的客户的接口") 
 public class CustomerController {  
 	@Autowired 
 	private ICustomerService iCustomerService; 
@@ -42,79 +42,60 @@ public class CustomerController {
 
 
 Logger logger=LoggerFactory.getLogger(CustomerController.class);	/** 
-	* 依据ID获取业务下的客户详情 
+	* 依据ID获取业务的客户详情 
 	* Auther:feng
 	*/ 
 	@PostMapping("getCustomerSingleById") 
-	@ApiOperation("依据ID获取业务下的客户详情") 
-	@ApiImplicitParams({ @ApiImplicitParam(name = "customerId", value = "业务下的客户的id", required = false,example="1") })
+	@ApiOperation("依据ID获取业务的客户详情") 
+	@ApiImplicitParams({ @ApiImplicitParam(name = "customerId", value = "业务的客户的id", required = false,example="1") })
 	public  ResultObject getCustomerSingleById(Integer customerId) {  
 		try{ 
 		  CustomerVO entity=new CustomerVO(); 
 		  entity=iCustomerService.getSingleInfoById(customerId); 
 		  return ResultUtil.successData(entity); 
 		}catch(Exception e){ 
-		  logger.error(e+"依据ID获取业务下的客户详情异常"); 
-		  return ResultUtil.error("依据ID获取业务下的客户详情异常"); 
+		  logger.error(e+"依据ID获取业务的客户详情异常"); 
+		  return ResultUtil.error("依据ID获取业务的客户详情异常"); 
 		} 
 	} 
 	/** 
-	* 获取业务下的客户单条记录 
+	* 获取业务的客户单条记录 
 	* Auther:feng
 	*/ 
 	@PostMapping("getCustomerSingle") 
-	@ApiOperation("获取业务下的客户单条记录") 
+	@ApiOperation("获取业务的客户单条记录") 
 	@ApiImplicitParams({  })
 	public ResultObject getCustomerSingle(CustomerDO customer) {  
 		try{ 
 		 CustomerVO customerVO=iCustomerService.getSingleInfo(customer); 
 		  return ResultUtil.successData(customerVO); 
 		}catch(Exception e){ 
-		  logger.error(e+"获取业务下的客户单条记录异常"); 
-		  return ResultUtil.error("获取业务下的客户单条记录异常"); 
+		  logger.error(e+"获取业务的客户单条记录异常"); 
+		  return ResultUtil.error("获取业务的客户单条记录异常"); 
 		} 
 	} 
 	/** 
-	 * 获取业务下的客户单条记录 
-	 * Auther:feng
-	 */ 
-	@PostMapping("api/getCustomerSingleByOrgCode") 
-	@ApiOperation("获取业务下的客户单条记录") 
-	@ApiImplicitParams({  })
-	public ResultObject getCustomerSingleByOrgCode(CustomerDO customer) {  
-		try{ 
-			if(StringUtils.isNull(customer.getOrgCode())) {
-				return ResultUtil.error("非法操作"); 
-			}
-			CustomerVO customerVO=iCustomerService.getSingleInfo(customer); 
-			return ResultUtil.successData(customerVO); 
-		}catch(Exception e){ 
-			logger.error(e+"获取业务下的客户单条记录异常"); 
-			return ResultUtil.error("获取业务下的客户单条记录异常"); 
-		} 
-	} 
-	/** 
-	* 获取业务下的客户列表 
+	* 获取业务的客户列表 
 	* Auther:feng
 	*/ 
 	@PostMapping("getCustomerList") 
-	@ApiOperation("获取业务下的客户列表") 
+	@ApiOperation("获取业务的客户列表") 
 	@ApiImplicitParams({ })
 	public ResultObject getCustomerList(CustomerDO customer) {  
 		try{ 
 		  List<CustomerVO> lst = iCustomerService.getCustomerList(customer); 
 		  return ResultUtil.successData(lst); 
 		}catch(Exception e){ 
-		  logger.error(e+"获取业务下的客户列表记录异常"); 
-		  return ResultUtil.error("获取业务下的客户列表记录异常"); 
+		  logger.error(e+"获取业务的客户列表记录异常"); 
+		  return ResultUtil.error("获取业务的客户列表记录异常"); 
 		} 
 	} 
 	/** 
-	* 获取业务下的客户分页数据 
+	* 获取业务的客户分页数据 
 	* Auther:feng
 	*/ 
 	@PostMapping("getCustomerListByPage") 
-	@ApiOperation("获取业务下的客户分页数据") 
+	@ApiOperation("获取业务的客户分页数据") 
 	@ApiImplicitParams({@ApiImplicitParam(name = "pageNum", value = "当前页", required = true,example="1"), 
 	@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true,example="1"), 
 	@ApiImplicitParam(name = "sort", value = "排序依据字段", required = false,example="1"), 
@@ -124,16 +105,16 @@ Logger logger=LoggerFactory.getLogger(CustomerController.class);	/**
 		try{ 
 		  return iCustomerService.getCustomerListByPage(customer, layuiPage); 
 		}catch(Exception e){ 
-		  logger.error(e+"获取业务下的客户分页记录异常"); 
+		  logger.error(e+"获取业务的客户分页记录异常"); 
 		  return layuiPage;
 		} 
 	} 
 	/** 
-	* 添加业务下的客户方法 
+	* 添加业务的客户方法 
 	* Auther:feng
 	*/ 
 	@PostMapping("addCustomer") 
-	@ApiOperation("添加业务下的客户") 
+	@ApiOperation("添加业务的客户") 
 	@ApiImplicitParams({  })
 	public  ResultObject addCustomer(CustomerAD customerad) {  
 		try{ 
@@ -141,16 +122,16 @@ Logger logger=LoggerFactory.getLogger(CustomerController.class);	/**
 		  return iCustomerService.addNewCustomer(customer); 
 		  //return ResultUtil.success("成功"); 
 		}catch(Exception e){ 
-		  logger.error(e+"添加业务下的客户异常"); 
-		  return ResultUtil.error("添加业务下的客户异常"); 
+		  logger.error(e+"添加业务的客户异常"); 
+		  return ResultUtil.error("添加业务的客户异常"); 
 		} 
 	} 
 	/** 
-	* 修改业务下的客户方法 
+	* 修改业务的客户方法 
 	* Auther:feng
 	*/ 
 	@PostMapping("modCustomer") 
-	@ApiOperation("修改业务下的客户") 
+	@ApiOperation("修改业务的客户") 
 	@ApiImplicitParams({  })
 	public  ResultObject modCustomer(CustomerAD customerad) {  
 		try{ 
@@ -158,16 +139,16 @@ Logger logger=LoggerFactory.getLogger(CustomerController.class);	/**
 			  return iCustomerService.modCustomer(customer); 
 			  //return ResultUtil.success("成功"); 
 		}catch(Exception e){ 
-		  logger.error(e+"修改业务下的客户异常"); 
-		  return ResultUtil.error("修改业务下的客户异常"); 
+		  logger.error(e+"修改业务的客户异常"); 
+		  return ResultUtil.error("修改业务的客户异常"); 
 		} 
 	} 
 	/** 
-	* 删除业务下的客户 
+	* 删除业务的客户 
 	* Auther:feng
 	*/ 
 	@PostMapping("delCustomer") 
-	@ApiOperation("删除业务下的客户方法") 
+	@ApiOperation("删除业务的客户方法") 
 	@ApiImplicitParams({ @ApiImplicitParam(name = "customerIds", value = "主键id数据",example="1", required = false) })
 	public  ResultObject delCustomer(String customerIds) {  
 		try{ 
@@ -180,8 +161,8 @@ Logger logger=LoggerFactory.getLogger(CustomerController.class);	/**
 		 }
 		 return ResultUtil.success();  
 		}catch(Exception e){ 
-		  logger.error(e+"删除业务下的客户方法异常 "); 
-		  return ResultUtil.error("删除业务下的客户方法异常 "); 
+		  logger.error(e+"删除业务的客户方法异常 "); 
+		  return ResultUtil.error("删除业务的客户方法异常 "); 
 		} 
 	} 
 }

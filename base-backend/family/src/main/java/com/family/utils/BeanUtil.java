@@ -59,7 +59,7 @@ public class BeanUtil {
 	private String PassWord = "123456";// 密码
 	private String rootPath = "D://JavaBean/";
 	// 包名
-	private String packageName = "com.family.gold.";
+	private String packageName = "com.family.business.";
 	private String utilpackageName = "com.family.utils.";
 	private String EntityPackge = packageName + "entity";
 	private String EntityVOPackge = EntityPackge + ".VO";
@@ -69,8 +69,8 @@ public class BeanUtil {
 	private String DaoPackge = packageName + "mapper";
 	// private String ToolPackge=packageName+"Tool";
 	Boolean isSingle = true;// 是否指定表来生成
-	private String Pre_fix = "gold_";// 要去掉的表名前缀
-	String SingleTableName = "gold_goods_in_storage_record,gold_goods_out_storage_record,gold_goods_storage";// 上面isSingle=true的话，就在这指定你要生成的表
+	private String Pre_fix = "business_";// 要去掉的表名前缀
+	String SingleTableName = "business_customer";// 上面isSingle=true的话，就在这指定你要生成的表
 	public static Connection conn = null;
 	ResultSetMetaData rsmd = null;
 	DatabaseMetaData dbmd = null;
