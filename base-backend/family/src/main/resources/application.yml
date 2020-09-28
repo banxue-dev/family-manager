@@ -1,0 +1,67 @@
+#tomcat
+server:
+ tomcat:
+  uri-encoding: utf-8
+ port: 8087
+ servlet:
+   session:
+     timeout: 10000
+   context-path: /family
+ #配置mybatis路径
+mybatis:
+  type-aliases-package: com.family.*.entity
+  mapper-locations: classpath:mapper/*/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+spring:
+  datasource:
+    name: druidDataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+#      本地
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://www.banxue.fun:3306/family?useUnicode=true&characterEncoding=UTF-8&useSSL=true&useAffectedRows=true&tinyInt1isBit=false&serverTimezone=GMT%2B8
+        username: root
+        password: 123456
+        max-active: 100
+        initial-size: 1
+        max-wait: 60000
+        min-idle: 1
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        validation-query: select * from dual
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: true
+        max-open-prepared-statements: 50
+        max-pool-prepared-statement-per-connection-size: 20
+        query-timeout: 0
+
+  #freemarker
+  freemarker:
+    charset: UTF-8
+    request-context-attribute: req
+    suffix: .html
+    content-type: text/html
+    enabled: true
+    cache: false
+    template-loader-path: classpath:/templates/
+    settings:
+      number_format: '0.##'
+    allow-request-override: true
+  http:   #http编码
+    encoding:
+      enabled: true
+      charset: UTF-8
+  servlet:   #文件上传大小限制
+    multipart:
+      max-request-size: 10MB
+      max-file-size: 2MB
+logging:
+   level:
+     com.family.*.*: debug
+uploadFile:
+  webImgPath: images/**
+  hostPath: /home/webuser/userHeadImg/
