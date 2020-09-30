@@ -30,6 +30,7 @@ public interface IMenuService  {
 	*/ 
 	public List<MenuVO> getMenuList(MenuDO menuDO);
 	public List<TreeMenuVO> getLeftMenu(MenuDO menuDO);
+	public List<TreeMenuVO> getLeftMenuByRole(MenuDO menuDO);
 	/** 
 	* 获取分页记录 
 	* Auther:feng

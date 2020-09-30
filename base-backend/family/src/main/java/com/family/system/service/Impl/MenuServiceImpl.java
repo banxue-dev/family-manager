@@ -106,32 +106,54 @@ public class MenuServiceImpl implements IMenuService {
         }
         for (MenuVO menu : list) {
             if (menu.getParentId().equals(fid)) {
-            	TreeMenuVO tree=new TreeMenuVO();
-            	tree.setId(menu.getMenuId());
-            	tree.setIcon(menu.getMenuIcon());
-            	tree.setTitle(menu.getMenuTitle());
-            	tree.setName(menu.getMenuName());
-            	tree.setJump(menu.getMenuUrl());
-            	tree.setParentId(menu.getParentId());
             	if(haveIds.indexOf(menu.getMenuId())!=-1) {
-            		tree.setChecked(true);
+                	TreeMenuVO tree=new TreeMenuVO();
+                	tree.setId(menu.getMenuId());
+                	tree.setIcon(menu.getMenuIcon());
+                	tree.setTitle(menu.getMenuTitle());
+                	tree.setName(menu.getMenuName());
+                	tree.setJump(menu.getMenuUrl());
+                	tree.setParentId(menu.getParentId());
+                    tree.setChildren(buildTree(list, menu.getMenuId(),haveIds,ctype));
+                    resultList.add(tree);
             	}
-                resultList.add(tree);
-                tree.setChildren(buildTree(list, menu.getMenuId(),haveIds,ctype));
-                /**
-                 * 1这个操作是，如果他有下级，那么就不要选中，因为前端tree插件选中上级的话会把下级全部选中
-                 * 2所以这里只有在他没有下级时才去判断选中
-                 * 3、只有类型为2时才这么做
-                 */
-                if(ctype==1) {
-                    if(tree.getChildren().size()>0) {
-                    	tree.setChecked(false);
-                    }
-                }
             }
         }
         return resultList;
     }
+	public static List<TreeMenuVO> buildTreeByRoleList(List<MenuVO> list, int fid,List<Integer> haveIds,int ctype) {
+		List<TreeMenuVO> resultList = new ArrayList<TreeMenuVO>();
+		if (list == null || list.size() == 0) {
+			return new ArrayList<TreeMenuVO>();
+		}
+		for (MenuVO menu : list) {
+			if (menu.getParentId().equals(fid)) {
+				TreeMenuVO tree=new TreeMenuVO();
+				tree.setId(menu.getMenuId());
+				tree.setIcon(menu.getMenuIcon());
+				tree.setTitle(menu.getMenuTitle());
+				tree.setName(menu.getMenuName());
+				tree.setJump(menu.getMenuUrl());
+				tree.setParentId(menu.getParentId());
+				if(haveIds.indexOf(menu.getMenuId())!=-1) {
+					tree.setChecked(true);
+				}
+				tree.setChildren(buildTree(list, menu.getMenuId(),haveIds,ctype));
+				resultList.add(tree);
+				/**
+				 * 1这个操作是，如果他有下级，那么就不要选中，因为前端tree插件选中上级的话会把下级全部选中
+				 * 2所以这里只有在他没有下级时才去判断选中
+				 * 3、只有类型为2时才这么做
+				 */
+				if(ctype==1) {
+					if(tree.getChildren().size()>0) {
+						tree.setChecked(false);
+					}
+				}
+			}
+		}
+		return resultList;
+	}
 
 	/**
 	 * 获取分页记录 Auther:feng
@@ -234,5 +256,32 @@ public class MenuServiceImpl implements IMenuService {
 		Example.Criteria criteria = example.createCriteria();
 		criteria.andEqualTo(EntityChangeRquestView.createDOToEntity(menuDO, new Menu()));
 		return example;
+	}
+
+	@Override
+	public List<TreeMenuVO> getLeftMenuByRole(MenuDO menuDO) {
+		// TODO Auto-generated method stub
+		Example example = getPublicExample(menuDO);
+		List<MenuVO> lstVO = new ArrayList<MenuVO>();
+
+		Example roleMenuExample = new Example(RoleMenu.class);
+		Example.Criteria criteria = roleMenuExample.createCriteria();
+		criteria.andIn("roleId", menuDO.getRoleIds());
+		List<RoleMenu> haveMenu=iRoleMenuMapper.selectByExample(roleMenuExample);
+		List<Integer> haveIds=new ArrayList<>();
+		if(haveMenu.size()>0) {
+
+			haveIds=haveMenu.stream().map(t->t.getMenuId()).collect(Collectors.toList());
+		}
+		haveIds=haveMenu.stream().map(t->t.getMenuId()).collect(Collectors.toList());
+		List<Menu> lst = iMenuMapper.selectByExample(example);
+		lst.forEach(t -> {
+			MenuVO vo = this.structDetailData(t);
+			if (vo != null) {
+				lstVO.add(vo);
+			}
+		});
+		
+		return buildTreeByRoleList(lstVO,0,haveIds,menuDO.getCatchType());
 	}
 }

@@ -119,7 +119,7 @@ public class MenuController {
 	@RequestMapping("getLeftMenu")
 	@ApiOperation("获取菜单表列表")
 	@ApiImplicitParams({})
-	public ResultObject getLeftMenuByUser(MenuDO menu,@RequestHeader("userId") Integer userId) {
+	public ResultObject getLeftMenu(MenuDO menu,@RequestHeader("userId") Integer userId) {
 		try {
 			if(userId==null || userId<1) {
 				return ResultUtil.error("获取菜单异常,用户操作例外");
@@ -155,7 +155,7 @@ public class MenuController {
 			List<Integer> roleIds=new ArrayList<>();
 			roleIds.add(roleId);
 			menu.setRoleIds(roleIds);
-			List<TreeMenuVO> lst = iMenuService.getLeftMenu(menu);
+			List<TreeMenuVO> lst = iMenuService.getLeftMenuByRole(menu);
 			return ResultUtil.successData(lst);
 		} catch (Exception e) {
 			logger.error(e + "获取菜单表列表记录异常");
