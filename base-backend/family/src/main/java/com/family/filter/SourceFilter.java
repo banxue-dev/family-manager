@@ -61,7 +61,7 @@ public class SourceFilter implements Filter {
         	chain.doFilter(request,response);
             return;
         }
-		logger.debug("开始过滤");
+		//logger.debug("开始过滤");
         /**
          * 1、先验证要忽略的其中api接口必须要orgcode
          * 2、其他接口里面，系统接口需要验证是否有这些系统设置的数据权限，防止侵入

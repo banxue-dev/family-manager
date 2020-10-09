@@ -51,7 +51,7 @@ public class GoldGetTimes {
 				}
 //				data.add(0, soures);
 				data.add(soures);
-	    		logger.debug("调用成功"+"时间："+(end-start)+"秒"+"--"+data.size());
+	    		//logger.debug("调用成功"+"时间："+(end-start)+"秒"+"--"+data.size());
 	    	}else {
 	    		logger.error("调用失败"+"时间："+(end-start)+"秒"+"--"+data.size()+""+soures);
 	    	}
