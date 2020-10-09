@@ -65,3 +65,4 @@ logging:
 uploadFile:
   webImgPath: images/**
   hostPath: /home/webuser/userHeadImg/
+goldtimesinterface: http://120.25.103.3/NewHtjApi

@@ -109,6 +109,22 @@ Logger logger=LoggerFactory.getLogger(OrgController.class);	/**
 		} 
 	} 
 	/** 
+	* 获取用户所属组织列表 
+	* Auther:feng
+	*/ 
+	@PostMapping("getOrgList") 
+	@ApiOperation("获取用户所属组织列表-需要登录") 
+	@ApiImplicitParams({ })
+	public ResultObject getOrgListAuth(OrgDO org) {  
+		try{ 
+		  List<OrgVO> lst = iOrgService.getOrgList(org); 
+		  return ResultUtil.successData(lst); 
+		}catch(Exception e){ 
+		  logger.error(e+"获取用户所属组织列表记录异常"); 
+		  return ResultUtil.error("获取用户所属组织列表记录异常"); 
+		} 
+	} 
+	/** 
 	* 获取用户所属组织分页数据 
 	* Auther:feng
 	*/ 

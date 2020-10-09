@@ -12,6 +12,7 @@ import com.family.gold.entity.DO.ChangePriceAD;
 import com.family.gold.entity.VO.ChangePriceVO;
 import com.family.gold.entity.DO.ChangePriceDO;
 import com.family.gold.service.IChangePriceService;
+import com.family.gold.timer.GoldGetTimes;
 import com.family.gold.mapper.ChangePriceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.family.utils.EntityChangeRquestView;
@@ -19,6 +20,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import java.util.List;
+import java.util.Random;
+
 import io.swagger.annotations.ApiOperation;
 import com.family.utils.ResultObject;
 import com.github.pagehelper.PageInfo;
@@ -45,9 +48,26 @@ public class ChangePriceController {
 	 * 依据ID获取黄金调价的相关配置详情 Auther:feng
 	 */
 
+
+	private static Random r = new Random();
 	/**
 	 * 获取黄金调价的相关配置单条记录 Auther:feng
 	 */
+	@PostMapping("getTimesGoldData")
+	@ApiOperation("获取实行的黄金价格-非调价数据")
+	@ApiImplicitParams({})
+	public String getTimesGoldData() {
+		try {
+			if(GoldGetTimes.data.size()<=0) {
+				return "[]";
+			}
+			int res=r.nextInt(GoldGetTimes.data.size());
+			 return GoldGetTimes.data.get(res);
+		} catch (Exception e) {
+			logger.error(e + "获取黄金调价的相关配置单条记录异常");
+			return "[]";
+		}
+	}
 	@PostMapping("getChangePriceSingle")
 	@ApiOperation("获取黄金调价的相关配置单条记录")
 	@ApiImplicitParams({})
