@@ -43,7 +43,7 @@ public class GoldController {
 	/**
 	 * 获取黄金调价的相关配置单条记录 Auther:feng
 	 */
-	@PostMapping("NewHtjApi")
+	@RequestMapping("NewHtjApi")
 	@ApiOperation("获取实行的黄金价格-非调价数据")
 	@ApiImplicitParams({})
 	public String getTimesGoldData() {
