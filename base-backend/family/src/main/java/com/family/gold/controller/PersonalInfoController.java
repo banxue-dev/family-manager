@@ -21,7 +21,8 @@ import java.util.List;
 import io.swagger.annotations.ApiOperation;  
 import com.family.utils.ResultObject;  
 import com.github.pagehelper.PageInfo; 
-import com.family.utils.LayuiPage; 
+import com.family.utils.LayuiPage;
+import com.family.utils.OrgCodeGreater;
 import com.family.utils.ResultUtil;  
 
 import com.family.utils.StringUtils;  
@@ -56,6 +57,22 @@ Logger logger=LoggerFactory.getLogger(PersonalInfoController.class);	/**
 		}catch(Exception e){ 
 		  logger.error(e+"依据ID获取业务下的客户详情异常"); 
 		  return ResultUtil.error("依据ID获取业务下的客户详情异常"); 
+		} 
+	} 
+	@PostMapping("api/getPersonalInfoSingleByOrgCode") 
+	@ApiOperation("依据组织机构获取业务下的客户详情") 
+	@ApiImplicitParams({ @ApiImplicitParam(name = "orgCode", value = "业务下的客户的orgCode", required = false,example="1") })
+	public  ResultObject getPersonalInfoSingleByOrgCode(String orgCode) {  
+		try{ 
+			if(StringUtils.isNull(orgCode)) {
+				return ResultUtil.error("重要参数不正确");
+			}
+			PersonalInfoDO pi=new PersonalInfoDO();
+			pi.setOrgCode(orgCode);
+			return ResultUtil.successData(iPersonalInfoService.getSingleInfo(pi)); 
+		}catch(Exception e){ 
+			logger.error(e+"依据orgCode获取业务下的客户详情异常"); 
+			return ResultUtil.error("依据orgCode获取业务下的客户详情异常"); 
 		} 
 	} 
 	/** 
