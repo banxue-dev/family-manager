@@ -44,11 +44,7 @@ public class ChangePriceController {
 
 	Logger logger = LoggerFactory.getLogger(ChangePriceController.class);
 
-	/**
-	 * 依据ID获取黄金调价的相关配置详情 Auther:feng
-	 */
-
-
+	
 	private static Random r = new Random();
 	/**
 	 * 获取黄金调价的相关配置单条记录 Auther:feng
@@ -68,6 +64,9 @@ public class ChangePriceController {
 			return "[]";
 		}
 	}
+	/**
+	 * 依据ID获取黄金调价的相关配置详情 Auther:feng
+	 */
 	@PostMapping("getChangePriceSingle")
 	@ApiOperation("获取黄金调价的相关配置单条记录")
 	@ApiImplicitParams({})
