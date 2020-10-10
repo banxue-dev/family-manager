@@ -58,5 +58,20 @@ public class GoldController {
 			return "[]";
 		}
 	}
+	@RequestMapping("getAllTimesGoldData")
+	@ApiOperation("获取实行的黄金价格-非调价数据")
+	@ApiImplicitParams({})
+	public ResultObject getAllTimesGoldData() {
+		try {
+			if(GoldGetTimes.data.size()<=0) {
+				return ResultUtil.error("没有数据");
+			}
+			int res=r.nextInt(GoldGetTimes.data.size());
+			return ResultUtil.successData(GoldGetTimes.data);
+		} catch (Exception e) {
+			logger.error(e + "获取黄金调价的相关配置单条记录异常");
+			return ResultUtil.error("");
+		}
+	}
 	
 }
