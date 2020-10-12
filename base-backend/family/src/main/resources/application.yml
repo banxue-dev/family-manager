@@ -21,7 +21,7 @@ spring:
     druid:
 #      本地
         driver-class-name: com.mysql.cj.jdbc.Driver
-        url: jdbc:mysql://www.banxue.fun:3306/family?useUnicode=true&characterEncoding=UTF-8&useSSL=true&useAffectedRows=true&tinyInt1isBit=false&serverTimezone=GMT%2B8
+        url: jdbc:mysql://www.banxue.fun:3306/family?useUnicode=true&characterEncoding=UTF-8&useSSL=true&tinyInt1isBit=false&serverTimezone=GMT%2B8
         username: root
         password: 123456
         max-active: 100

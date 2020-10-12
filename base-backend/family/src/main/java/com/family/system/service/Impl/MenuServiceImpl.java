@@ -121,6 +121,33 @@ public class MenuServiceImpl implements IMenuService {
         }
         return resultList;
     }
+
+	@Override
+	public List<TreeMenuVO> getLeftMenuByRole(MenuDO menuDO) {
+		// TODO Auto-generated method stub
+		Example example = getPublicExample(menuDO);
+		List<MenuVO> lstVO = new ArrayList<MenuVO>();
+
+		Example roleMenuExample = new Example(RoleMenu.class);
+		Example.Criteria criteria = roleMenuExample.createCriteria();
+		criteria.andIn("roleId", menuDO.getRoleIds());
+		List<RoleMenu> haveMenu=iRoleMenuMapper.selectByExample(roleMenuExample);
+		List<Integer> haveIds=new ArrayList<>();
+		if(haveMenu.size()>0) {
+
+			haveIds=haveMenu.stream().map(t->t.getMenuId()).collect(Collectors.toList());
+		}
+		haveIds=haveMenu.stream().map(t->t.getMenuId()).collect(Collectors.toList());
+		List<Menu> lst = iMenuMapper.selectByExample(example);
+		lst.forEach(t -> {
+			MenuVO vo = this.structDetailData(t);
+			if (vo != null) {
+				lstVO.add(vo);
+			}
+		});
+		
+		return buildTreeByRoleList(lstVO,0,haveIds,menuDO.getCatchType());
+	}
 	public static List<TreeMenuVO> buildTreeByRoleList(List<MenuVO> list, int fid,List<Integer> haveIds,int ctype) {
 		List<TreeMenuVO> resultList = new ArrayList<TreeMenuVO>();
 		if (list == null || list.size() == 0) {
@@ -138,8 +165,7 @@ public class MenuServiceImpl implements IMenuService {
 				if(haveIds.indexOf(menu.getMenuId())!=-1) {
 					tree.setChecked(true);
 				}
-				tree.setChildren(buildTree(list, menu.getMenuId(),haveIds,ctype));
-				resultList.add(tree);
+				tree.setChildren(buildTreeByRoleList(list, menu.getMenuId(),haveIds,ctype));
 				/**
 				 * 1这个操作是，如果他有下级，那么就不要选中，因为前端tree插件选中上级的话会把下级全部选中
 				 * 2所以这里只有在他没有下级时才去判断选中
@@ -150,6 +176,7 @@ public class MenuServiceImpl implements IMenuService {
 						tree.setChecked(false);
 					}
 				}
+				resultList.add(tree);
 			}
 		}
 		return resultList;
@@ -258,30 +285,4 @@ public class MenuServiceImpl implements IMenuService {
 		return example;
 	}
 
-	@Override
-	public List<TreeMenuVO> getLeftMenuByRole(MenuDO menuDO) {
-		// TODO Auto-generated method stub
-		Example example = getPublicExample(menuDO);
-		List<MenuVO> lstVO = new ArrayList<MenuVO>();
-
-		Example roleMenuExample = new Example(RoleMenu.class);
-		Example.Criteria criteria = roleMenuExample.createCriteria();
-		criteria.andIn("roleId", menuDO.getRoleIds());
-		List<RoleMenu> haveMenu=iRoleMenuMapper.selectByExample(roleMenuExample);
-		List<Integer> haveIds=new ArrayList<>();
-		if(haveMenu.size()>0) {
-
-			haveIds=haveMenu.stream().map(t->t.getMenuId()).collect(Collectors.toList());
-		}
-		haveIds=haveMenu.stream().map(t->t.getMenuId()).collect(Collectors.toList());
-		List<Menu> lst = iMenuMapper.selectByExample(example);
-		lst.forEach(t -> {
-			MenuVO vo = this.structDetailData(t);
-			if (vo != null) {
-				lstVO.add(vo);
-			}
-		});
-		
-		return buildTreeByRoleList(lstVO,0,haveIds,menuDO.getCatchType());
-	}
 }
