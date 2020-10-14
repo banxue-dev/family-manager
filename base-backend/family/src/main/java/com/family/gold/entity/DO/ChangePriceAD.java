@@ -1,5 +1,7 @@
 package com.family.gold.entity.DO; 
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,7 +17,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel("黄金调价的相关配置")
 public class ChangePriceAD {
-	private static final long serialVersionUID = 1L;
+	private static final Long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "所属组织机构")
 	private String orgCode;
@@ -24,70 +26,70 @@ public class ChangePriceAD {
 	private Integer openStatus;
 
 	@ApiModelProperty(value = "黄金买价",example="1")
-	private Long xaubuy;
+	private BigDecimal xaubuy;
 
 	@ApiModelProperty(value = "黄金售价",example="1")
-	private Long xausale;
+	private BigDecimal xausale;
 
 	@ApiModelProperty(value = "银买价",example="1")
-	private Long xagbuy;
+	private BigDecimal xagbuy;
 
 	@ApiModelProperty(value = "银售价",example="1")
-	private Long xagsale;
+	private BigDecimal xagsale;
 
 	@ApiModelProperty(value = "铂金买价",example="1")
-	private Long ptbuy;
+	private BigDecimal ptbuy;
 
 	@ApiModelProperty(value = "铂金售价",example="1")
-	private Long ptsale;
+	private BigDecimal ptsale;
 
 	@ApiModelProperty(value = "钯金买价",example="1")
-	private Long pdbuy;
+	private BigDecimal pdbuy;
 
 	@ApiModelProperty(value = "钯金售价",example="1")
-	private Long pdsale;
+	private BigDecimal pdsale;
 
 	@ApiModelProperty(value = "18k金买价",example="1")
-	private Long au18buy;
+	private BigDecimal au18buy;
 
 	@ApiModelProperty(value = "18K金售价",example="1")
-	private Long au18sale;
+	private BigDecimal au18sale;
 
 	@ApiModelProperty(value = "银925买价",example="1")
-	private Long ag925buy;
+	private BigDecimal ag925buy;
 
 	@ApiModelProperty(value = "银925售价",example="1")
-	private Long ag925sale;
+	private BigDecimal ag925sale;
 
 	@ApiModelProperty(value = "铂金990买价",example="1")
-	private Long pt990buy;
+	private BigDecimal pt990buy;
 
 	@ApiModelProperty(value = "铂金990售价",example="1")
-	private Long pt990sale;
+	private BigDecimal pt990sale;
 
 	@ApiModelProperty(value = "铂金950买价",example="1")
-	private Long pt950buy;
+	private BigDecimal pt950buy;
 
 	@ApiModelProperty(value = "铂金950售价",example="1")
-	private Long pt950sale;
+	private BigDecimal pt950sale;
 
 	@ApiModelProperty(value = "钯金990买价",example="1")
-	private Long pd990buy;
+	private BigDecimal pd990buy;
 
 	@ApiModelProperty(value = "钯金990售价",example="1")
-	private Long pd990sale;
+	private BigDecimal pd990sale;
 
 	@ApiModelProperty(value = "钯金950买价",example="1")
-	private Long pd950buy;
+	private BigDecimal pd950buy;
 
 	@ApiModelProperty(value = "钯金950售价",example="1")
-	private Long pd950sale;
+	private BigDecimal pd950sale;
 
 	@ApiModelProperty(value = "千足金买价",example="1")
-	private Long au1000buy;
+	private BigDecimal au1000buy;
 
 	@ApiModelProperty(value = "千足金售价",example="1")
-	private Long au1000sale;
+	private BigDecimal au1000sale;
 
 
 	/**
@@ -120,265 +122,265 @@ public class ChangePriceAD {
 	/**
 	 *黄金买价
 	 */ 
-	public void setXaubuy(Long xaubuy){
+	public void setXaubuy(BigDecimal xaubuy){
 		this.xaubuy=xaubuy;
 	}
 	/**
 	 *黄金买价
 	 */ 
-	public Long getXaubuy(){
+	public BigDecimal getXaubuy(){
 		return xaubuy;
 	}
 	/**
 	 *黄金售价
 	 */ 
-	public void setXausale(Long xausale){
+	public void setXausale(BigDecimal xausale){
 		this.xausale=xausale;
 	}
 	/**
 	 *黄金售价
 	 */ 
-	public Long getXausale(){
+	public BigDecimal getXausale(){
 		return xausale;
 	}
 	/**
 	 *银买价
 	 */ 
-	public void setXagbuy(Long xagbuy){
+	public void setXagbuy(BigDecimal xagbuy){
 		this.xagbuy=xagbuy;
 	}
 	/**
 	 *银买价
 	 */ 
-	public Long getXagbuy(){
+	public BigDecimal getXagbuy(){
 		return xagbuy;
 	}
 	/**
 	 *银售价
 	 */ 
-	public void setXagsale(Long xagsale){
+	public void setXagsale(BigDecimal xagsale){
 		this.xagsale=xagsale;
 	}
 	/**
 	 *银售价
 	 */ 
-	public Long getXagsale(){
+	public BigDecimal getXagsale(){
 		return xagsale;
 	}
 	/**
 	 *铂金买价
 	 */ 
-	public void setPtbuy(Long ptbuy){
+	public void setPtbuy(BigDecimal ptbuy){
 		this.ptbuy=ptbuy;
 	}
 	/**
 	 *铂金买价
 	 */ 
-	public Long getPtbuy(){
+	public BigDecimal getPtbuy(){
 		return ptbuy;
 	}
 	/**
 	 *铂金售价
 	 */ 
-	public void setPtsale(Long ptsale){
+	public void setPtsale(BigDecimal ptsale){
 		this.ptsale=ptsale;
 	}
 	/**
 	 *铂金售价
 	 */ 
-	public Long getPtsale(){
+	public BigDecimal getPtsale(){
 		return ptsale;
 	}
 	/**
 	 *钯金买价
 	 */ 
-	public void setPdbuy(Long pdbuy){
+	public void setPdbuy(BigDecimal pdbuy){
 		this.pdbuy=pdbuy;
 	}
 	/**
 	 *钯金买价
 	 */ 
-	public Long getPdbuy(){
+	public BigDecimal getPdbuy(){
 		return pdbuy;
 	}
 	/**
 	 *钯金售价
 	 */ 
-	public void setPdsale(Long pdsale){
+	public void setPdsale(BigDecimal pdsale){
 		this.pdsale=pdsale;
 	}
 	/**
 	 *钯金售价
 	 */ 
-	public Long getPdsale(){
+	public BigDecimal getPdsale(){
 		return pdsale;
 	}
 	/**
 	 *18k金买价
 	 */ 
-	public void setAu18buy(Long au18buy){
+	public void setAu18buy(BigDecimal au18buy){
 		this.au18buy=au18buy;
 	}
 	/**
 	 *18k金买价
 	 */ 
-	public Long getAu18buy(){
+	public BigDecimal getAu18buy(){
 		return au18buy;
 	}
 	/**
 	 *18K金售价
 	 */ 
-	public void setAu18sale(Long au18sale){
+	public void setAu18sale(BigDecimal au18sale){
 		this.au18sale=au18sale;
 	}
 	/**
 	 *18K金售价
 	 */ 
-	public Long getAu18sale(){
+	public BigDecimal getAu18sale(){
 		return au18sale;
 	}
 	/**
 	 *银925买价
 	 */ 
-	public void setAg925buy(Long ag925buy){
+	public void setAg925buy(BigDecimal ag925buy){
 		this.ag925buy=ag925buy;
 	}
 	/**
 	 *银925买价
 	 */ 
-	public Long getAg925buy(){
+	public BigDecimal getAg925buy(){
 		return ag925buy;
 	}
 	/**
 	 *银925售价
 	 */ 
-	public void setAg925sale(Long ag925sale){
+	public void setAg925sale(BigDecimal ag925sale){
 		this.ag925sale=ag925sale;
 	}
 	/**
 	 *银925售价
 	 */ 
-	public Long getAg925sale(){
+	public BigDecimal getAg925sale(){
 		return ag925sale;
 	}
 	/**
 	 *铂金990买价
 	 */ 
-	public void setPt990buy(Long pt990buy){
+	public void setPt990buy(BigDecimal pt990buy){
 		this.pt990buy=pt990buy;
 	}
 	/**
 	 *铂金990买价
 	 */ 
-	public Long getPt990buy(){
+	public BigDecimal getPt990buy(){
 		return pt990buy;
 	}
 	/**
 	 *铂金990售价
 	 */ 
-	public void setPt990sale(Long pt990sale){
+	public void setPt990sale(BigDecimal pt990sale){
 		this.pt990sale=pt990sale;
 	}
 	/**
 	 *铂金990售价
 	 */ 
-	public Long getPt990sale(){
+	public BigDecimal getPt990sale(){
 		return pt990sale;
 	}
 	/**
 	 *铂金950买价
 	 */ 
-	public void setPt950buy(Long pt950buy){
+	public void setPt950buy(BigDecimal pt950buy){
 		this.pt950buy=pt950buy;
 	}
 	/**
 	 *铂金950买价
 	 */ 
-	public Long getPt950buy(){
+	public BigDecimal getPt950buy(){
 		return pt950buy;
 	}
 	/**
 	 *铂金950售价
 	 */ 
-	public void setPt950sale(Long pt950sale){
+	public void setPt950sale(BigDecimal pt950sale){
 		this.pt950sale=pt950sale;
 	}
 	/**
 	 *铂金950售价
 	 */ 
-	public Long getPt950sale(){
+	public BigDecimal getPt950sale(){
 		return pt950sale;
 	}
 	/**
 	 *钯金990买价
 	 */ 
-	public void setPd990buy(Long pd990buy){
+	public void setPd990buy(BigDecimal pd990buy){
 		this.pd990buy=pd990buy;
 	}
 	/**
 	 *钯金990买价
 	 */ 
-	public Long getPd990buy(){
+	public BigDecimal getPd990buy(){
 		return pd990buy;
 	}
 	/**
 	 *钯金990售价
 	 */ 
-	public void setPd990sale(Long pd990sale){
+	public void setPd990sale(BigDecimal pd990sale){
 		this.pd990sale=pd990sale;
 	}
 	/**
 	 *钯金990售价
 	 */ 
-	public Long getPd990sale(){
+	public BigDecimal getPd990sale(){
 		return pd990sale;
 	}
 	/**
 	 *钯金950买价
 	 */ 
-	public void setPd950buy(Long pd950buy){
+	public void setPd950buy(BigDecimal pd950buy){
 		this.pd950buy=pd950buy;
 	}
 	/**
 	 *钯金950买价
 	 */ 
-	public Long getPd950buy(){
+	public BigDecimal getPd950buy(){
 		return pd950buy;
 	}
 	/**
 	 *钯金950售价
 	 */ 
-	public void setPd950sale(Long pd950sale){
+	public void setPd950sale(BigDecimal pd950sale){
 		this.pd950sale=pd950sale;
 	}
 	/**
 	 *钯金950售价
 	 */ 
-	public Long getPd950sale(){
+	public BigDecimal getPd950sale(){
 		return pd950sale;
 	}
 	/**
 	 *千足金买价
 	 */ 
-	public void setAu1000buy(Long au1000buy){
+	public void setAu1000buy(BigDecimal au1000buy){
 		this.au1000buy=au1000buy;
 	}
 	/**
 	 *千足金买价
 	 */ 
-	public Long getAu1000buy(){
+	public BigDecimal getAu1000buy(){
 		return au1000buy;
 	}
 	/**
 	 *千足金售价
 	 */ 
-	public void setAu1000sale(Long au1000sale){
+	public void setAu1000sale(BigDecimal au1000sale){
 		this.au1000sale=au1000sale;
 	}
 	/**
 	 *千足金售价
 	 */ 
-	public Long getAu1000sale(){
+	public BigDecimal getAu1000sale(){
 		return au1000sale;
 	}
 }

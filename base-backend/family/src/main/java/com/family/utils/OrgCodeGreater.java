@@ -1,5 +1,6 @@
 package com.family.utils;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -105,6 +106,8 @@ public class OrgCodeGreater {
 		String dc=decode("2727373274040378720029776377800120146379198520170174100612747805");
 		System.out.println(dc.contentEquals("20201012085851dbHAcqckJunqhmPuVJiTDUidE"));
 		System.out.println(dc);
+		BigDecimal  bd=new BigDecimal("-0.1");
+		System.out.println(bd.toString());
 	}
 	
 }
