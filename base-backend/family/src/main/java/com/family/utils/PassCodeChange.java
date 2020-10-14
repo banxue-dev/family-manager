@@ -27,6 +27,9 @@ public class PassCodeChange {
 	 * @return
 	 */
 	public static String encode(String source) {
+		if(StringUtils.isNull(source)) {
+			return null;
+		}
 		String res="";
 		try {
 			char[]  c = source.toCharArray();
