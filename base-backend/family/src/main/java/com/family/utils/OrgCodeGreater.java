@@ -100,9 +100,10 @@ public class OrgCodeGreater {
 //		049930383738313628345839592556165049312543211225571052274535402552
 //		String sr=createCode();
 //		System.out.println(sr);
-//		String ec=encode("20200923180954ELOPViJJVlUUlBeOkVYjDsgRN");
-//		System.out.println(ec);
-		String dc=decode("2323342709341817434647533915155357525257553546415329401619374945");
+		String ec=encode("20201012085851dbHAcqckJunqhmPuVJiTDUidE");
+		System.out.println(ec);
+		String dc=decode("2727373274040378720029776377800120146379198520170174100612747805");
+		System.out.println(dc.contentEquals("20201012085851dbHAcqckJunqhmPuVJiTDUidE"));
 		System.out.println(dc);
 	}
 	

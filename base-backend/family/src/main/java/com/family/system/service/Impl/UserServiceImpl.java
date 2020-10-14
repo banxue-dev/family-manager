@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import com.family.utils.TimeUtils;
 import com.github.pagehelper.PageInfo;
 import com.family.utils.LayuiPage;
+import com.family.utils.OrgCodeGreater;
 import com.family.utils.PassCodeChange;
 import com.family.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,6 +117,7 @@ public class UserServiceImpl implements IUserService {
 	@Transactional
 	public ResultObject modUser(User user) {
 		user.setUserPwd(PassCodeChange.encode(user.getUserPwd()));
+		user.setOrgCode(OrgCodeGreater.decode(user.getOrgCode()));
 		int i = iUserMapper.updateByPrimaryKeySelective(user);
 		if (i < 1) {
 			return ResultUtil.error("更新失败");
@@ -137,6 +139,7 @@ public class UserServiceImpl implements IUserService {
 		}
 		user.setUserPwd(PassCodeChange.encode(user.getUserPwd()));
 		user.setCreateTime(TimeUtils.getCurrentTime());
+		user.setOrgCode(OrgCodeGreater.decode(user.getOrgCode()));
 		int i = iUserMapper.insertSelective(user);
 		if (i < 1) {
 			return ResultUtil.error("更新失败");
