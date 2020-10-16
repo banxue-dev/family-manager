@@ -49,6 +49,17 @@ public class CustomerAD {
 	private String customerDesc;
 
 
+
+	@ApiModelProperty(value = "有效期止")
+	private String customerValidate;
+	
+	
+	public String getCustomerValidate() {
+		return customerValidate;
+	}
+	public void setCustomerValidate(String customerValidate) {
+		this.customerValidate = customerValidate;
+	}
 	/**
 	 *主键
 	 */ 

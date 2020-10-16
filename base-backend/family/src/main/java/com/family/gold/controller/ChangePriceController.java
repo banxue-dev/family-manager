@@ -1,34 +1,38 @@
 package com.family.gold.controller;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import springfox.documentation.annotations.ApiIgnore;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.family.gold.entity.ChangePrice;
-import com.family.gold.entity.DO.ChangePriceAD;
-import com.family.gold.entity.VO.ChangePriceVO;
-import com.family.gold.entity.DO.ChangePriceDO;
-import com.family.gold.service.IChangePriceService;
-import com.family.gold.timer.GoldGetTimes;
-import com.family.gold.mapper.ChangePriceMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.family.utils.EntityChangeRquestView;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import io.swagger.annotations.ApiOperation;
-import com.family.utils.ResultObject;
-import com.github.pagehelper.PageInfo;
-import com.family.utils.LayuiPage;
-import com.family.utils.ResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.family.business.entity.Customer;
+import com.family.business.mapper.CustomerMapper;
+import com.family.gold.entity.ChangePrice;
+import com.family.gold.entity.DO.ChangePriceAD;
+import com.family.gold.entity.DO.ChangePriceDO;
+import com.family.gold.entity.VO.ChangePriceVO;
+import com.family.gold.mapper.ChangePriceMapper;
+import com.family.gold.service.IChangePriceService;
+import com.family.gold.timer.GoldGetTimes;
+import com.family.utils.EntityChangeRquestView;
+import com.family.utils.LayuiPage;
+import com.family.utils.OrgCodeGreater;
+import com.family.utils.ResultObject;
+import com.family.utils.ResultUtil;
 import com.family.utils.StringUtils;
+import com.family.utils.TimeUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * 黄金调价的相关配置控制器 Auther:feng Date:2020-09-21 15:07:56
@@ -41,10 +45,12 @@ public class ChangePriceController {
 	private IChangePriceService iChangePriceService;
 	@Autowired
 	private ChangePriceMapper iChangePriceMapper;
+	@Autowired
+	private CustomerMapper customerMapper;
 
 	Logger logger = LoggerFactory.getLogger(ChangePriceController.class);
 
-	
+	private static List<Customer> customerList=new ArrayList<>();//存储的orgcode
 	private static Random r = new Random();
 	/**
 	 * 获取黄金调价的相关配置单条记录 Auther:feng
@@ -52,8 +58,12 @@ public class ChangePriceController {
 	@PostMapping("NewHtjApi")
 	@ApiOperation("获取实行的黄金价格-非调价数据")
 	@ApiImplicitParams({})
-	public String getTimesGoldData() {
+	public String getTimesGoldData(String orgCode) {
 		try {
+			int i=ifValidate(orgCode);
+			if(i<1) {
+				return "授权已过期，请联系管理员续费";
+			}
 			if(GoldGetTimes.data.size()<=0) {
 				return "[]";
 			}
@@ -65,6 +75,50 @@ public class ChangePriceController {
 		}
 	}
 	/**
+	 * 获取黄金调价的相关配置单条记录 Auther:feng
+	 */
+	@PostMapping("HdwerIDsdg")
+	@ApiOperation("获取实行的黄金价格-非调价数据-对外，需要组织机构")
+	@ApiImplicitParams({})
+	public String getTimesGoldData2(String orgCode) {
+		try {
+			int i=ifValidate(orgCode);
+			if(i<1) {
+				return "请勿非法访问";
+			}
+			if(GoldGetTimes.data.size()<=0) {
+				return "[]";
+			}
+//			int res=r.nextInt(GoldGetTimes.data.size());
+			 return GoldGetTimes.data.get(GoldGetTimes.data.size()-1);
+		} catch (Exception e) {
+			logger.error(e + "获取黄金调价的相关配置单条记录异常");
+			return "[]";
+		}
+	}
+	public int ifValidate(String orgCode) {
+		if(customerList.size()<1) {
+			resetCustomerList();
+		}
+		for(Customer org:customerList) {
+			if(org.getOrgCode().contentEquals(OrgCodeGreater.decode(orgCode))) {
+				if(StringUtils.isNull(org.getCustomerValidate())) {
+					break;
+				}
+				try {
+					if(TimeUtils.compareDate(TimeUtils.getCurrentTime(), org.getCustomerValidate())==1) {
+						break;
+					}
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					logger.error("判断是否有效时出现时间转换异常");
+				}
+				return 1;
+			}
+		}
+		return 0;
+	}
+	/**
 	 * 依据ID获取黄金调价的相关配置详情 Auther:feng
 	 */
 	@PostMapping("getChangePriceSingle")
@@ -72,11 +126,32 @@ public class ChangePriceController {
 	@ApiImplicitParams({})
 	public ResultObject getChangePriceSingleByOrgCode(ChangePriceDO changePrice) {
 		try {
+			int i=ifValidate(changePrice.getEncodeOrgCode());
+			if(i<1) {
+				return ResultUtil.error("授权已过期，请联系管理员续费");
+			}
 			ChangePriceVO changePriceVO = iChangePriceService.getSingleInfo(changePrice);
 			if (changePriceVO != null) {
+				changePriceVO.setOrgCodeName(null);
 				changePriceVO.setChangePriceId(null);
 			}
 			return ResultUtil.successData(changePriceVO);
+		} catch (Exception e) {
+			logger.error(e + "获取黄金调价的相关配置单条记录异常");
+			return ResultUtil.error("获取黄金调价的相关配置单条记录异常");
+		}
+	}
+	@RequestMapping("resetCustomerList")
+	@ApiOperation("获取黄金调价的相关配置单条记录")
+	@ApiImplicitParams({})
+	public ResultObject resetCustomerList() {
+		try {
+			List<Customer> lst=customerMapper.selectAll();
+			if(lst.size()<1) {
+				return ResultUtil.success();
+			}
+			customerList=lst;
+			return ResultUtil.success();
 		} catch (Exception e) {
 			logger.error(e + "获取黄金调价的相关配置单条记录异常");
 			return ResultUtil.error("获取黄金调价的相关配置单条记录异常");

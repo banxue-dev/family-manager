@@ -36,6 +36,8 @@ public class CustomerDO {
 	@ApiModelProperty(value = "邮箱")
 	private String customerMail;
 
+	@ApiModelProperty(value = "有效期止")
+	private String customerValidate;
 	@ApiModelProperty(value = "成交金额",example="1")
 	private BigDecimal customerPrice;
 
@@ -66,6 +68,13 @@ public class CustomerDO {
 	 */ 
 	public void setCustomerName(String customerName){
 		this.customerName=customerName;
+	}
+	
+	public String getCustomerValidate() {
+		return customerValidate;
+	}
+	public void setCustomerValidate(String customerValidate) {
+		this.customerValidate = customerValidate;
 	}
 	/**
 	 *名称

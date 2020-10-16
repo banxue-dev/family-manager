@@ -98,6 +98,9 @@ public class ChangePriceDO {
 	public String getOrgCode(){
 		return com.family.utils.OrgCodeGreater.decode(this.orgCode);
 	}
+	public String getEncodeOrgCode() {
+		return this.orgCode;
+	}
 	/**
 	 *0:开盘，1：停盘，2：周末停盘周内开盘
 	 */ 

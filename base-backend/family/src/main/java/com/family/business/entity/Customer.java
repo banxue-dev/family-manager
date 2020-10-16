@@ -56,6 +56,9 @@ public class Customer {
 	@Column(name="create_time")
 	@ApiModelProperty(value = "创建时间")
 	private String createTime;
+	@Column(name="customer_validate")
+	@ApiModelProperty(value = "有效期止")
+	private String customerValidate;
 
 	@Column(name="customer_desc")
 	@ApiModelProperty(value = "备注")
@@ -85,6 +88,13 @@ public class Customer {
 	 */ 
 	public String getCustomerName(){
 		return customerName;
+	}
+	
+	public String getCustomerValidate() {
+		return customerValidate;
+	}
+	public void setCustomerValidate(String customerValidate) {
+		this.customerValidate = customerValidate;
 	}
 	/**
 	 *地址
