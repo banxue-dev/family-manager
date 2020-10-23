@@ -54,7 +54,49 @@ public class PersonalInfoAD {
 	@ApiModelProperty(value = "组织的logo")
 	private String customerLogo;
 
+	@ApiModelProperty(value="0:开盘，1：停盘，2：周末停盘周内开盘")
+	private String openStatus;
+	
+	@ApiModelProperty(value="主题背景类型")
+	private String themBackColor;
+	@ApiModelProperty(value="内容色调")
+	private String contentColorType;
 
+	@ApiModelProperty(value="内容中的li的背景")
+	private String cellBackColor;
+
+	
+	
+	
+	public String getCellBackColor() {
+		return cellBackColor;
+	}
+	public void setCellBackColor(String cellBackColor) {
+		this.cellBackColor = cellBackColor;
+	}
+	
+	
+	
+	public String getContentColorType() {
+		return contentColorType;
+	}
+	public void setContentColorType(String contentColorType) {
+		this.contentColorType = contentColorType;
+	}
+
+	
+	public String getOpenStatus() {
+		return openStatus;
+	}
+	public void setOpenStatus(String openStatus) {
+		this.openStatus = openStatus;
+	}
+	public String getThemBackColor() {
+		return themBackColor;
+	}
+	public void setThemBackColor(String themBackColor) {
+		this.themBackColor = themBackColor;
+	}
 	/**
 	 *主键
 	 */ 

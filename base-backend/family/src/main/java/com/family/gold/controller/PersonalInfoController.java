@@ -1,31 +1,36 @@
 package com.family.gold.controller; 
-import org.springframework.web.bind.annotation.RestController; 
-import org.springframework.web.bind.annotation.PostMapping;   
-import org.springframework.web.bind.annotation.RequestMapping;   
-import org.springframework.web.bind.annotation.RequestHeader;   
-import springfox.documentation.annotations.ApiIgnore;  
-import org.slf4j.Logger; 
-import org.slf4j.LoggerFactory; 
-import com.family.gold.entity.PersonalInfo; 
-import com.family.gold.entity.DO.PersonalInfoAD; 
-import com.family.gold.entity.VO.PersonalInfoVO; 
-import com.family.gold.entity.DO.PersonalInfoDO; 
-import com.family.gold.service.IPersonalInfoService; 
-import com.family.gold.mapper.PersonalInfoMapper; 
-import org.springframework.beans.factory.annotation.Autowired;   
-import com.family.utils.EntityChangeRquestView;   
-import io.swagger.annotations.Api;   
-import io.swagger.annotations.ApiImplicitParam;   
-import io.swagger.annotations.ApiImplicitParams;   
-import java.util.List;  
-import io.swagger.annotations.ApiOperation;  
-import com.family.utils.ResultObject;  
-import com.github.pagehelper.PageInfo; 
-import com.family.utils.LayuiPage;
-import com.family.utils.OrgCodeGreater;
-import com.family.utils.ResultUtil;  
+import java.util.List;
 
-import com.family.utils.StringUtils;  
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.family.gold.entity.PersonalInfo;
+import com.family.gold.entity.ReturnUserInfoData;
+import com.family.gold.entity.DO.PersonalInfoAD;
+import com.family.gold.entity.DO.PersonalInfoDO;
+import com.family.gold.entity.DO.UserDiyGroupConfigDO;
+import com.family.gold.entity.DO.UserDiyMetalConfigDO;
+import com.family.gold.entity.VO.PersonalInfoVO;
+import com.family.gold.entity.VO.UserDiyGroupConfigVO;
+import com.family.gold.entity.VO.UserDiyMetalConfigVO;
+import com.family.gold.mapper.PersonalInfoMapper;
+import com.family.gold.service.IPersonalInfoService;
+import com.family.gold.service.IUserDiyGroupConfigService;
+import com.family.gold.service.IUserDiyMetalConfigService;
+import com.family.utils.EntityChangeRquestView;
+import com.family.utils.LayuiPage;
+import com.family.utils.ResultObject;
+import com.family.utils.ResultUtil;
+import com.family.utils.StringUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;  
 
 /** 
 * 业务下的客户控制器 
@@ -40,6 +45,10 @@ public class PersonalInfoController {
 	private IPersonalInfoService iPersonalInfoService; 
 	@Autowired 
 	private PersonalInfoMapper iPersonalInfoMapper; 
+	@Autowired 
+	private IUserDiyGroupConfigService userDiyGroupConfigService; 
+	@Autowired 
+	private IUserDiyMetalConfigService userDiyMetalConfigService; 
 
 
 Logger logger=LoggerFactory.getLogger(PersonalInfoController.class);	/** 
@@ -60,7 +69,7 @@ Logger logger=LoggerFactory.getLogger(PersonalInfoController.class);	/**
 		} 
 	} 
 	@PostMapping("api/getPersonalInfoSingleByOrgCode") 
-	@ApiOperation("依据组织机构获取业务下的客户详情") 
+	@ApiOperation("依据组织机构获取业务下的客户详情--包括所有数据") 
 	@ApiImplicitParams({ @ApiImplicitParam(name = "orgCode", value = "业务下的客户的orgCode", required = false,example="1") })
 	public  ResultObject getPersonalInfoSingleByOrgCode(String orgCode) {  
 		try{ 
@@ -69,7 +78,22 @@ Logger logger=LoggerFactory.getLogger(PersonalInfoController.class);	/**
 			}
 			PersonalInfoDO pi=new PersonalInfoDO();
 			pi.setOrgCode(orgCode);
-			return ResultUtil.successData(iPersonalInfoService.getSingleInfo(pi)); 
+			PersonalInfoVO pv=iPersonalInfoService.getSingleInfo(pi);
+			if(pv==null) {
+				return ResultUtil.error("错误的访问");
+			}
+			ReturnUserInfoData res=new ReturnUserInfoData();
+			res.setPersonalInfo(pv);
+			UserDiyGroupConfigDO udgc=new UserDiyGroupConfigDO();
+			udgc.setOrgCode(orgCode);
+			List<UserDiyGroupConfigVO> udgv=userDiyGroupConfigService.getUserDiyGroupConfigList(udgc);
+			
+			UserDiyMetalConfigDO udmc=new UserDiyMetalConfigDO();
+			udmc.setOrgCode(orgCode);
+			List<UserDiyMetalConfigVO> udmv=userDiyMetalConfigService.getSingleInfoByOut(udmc);
+			res.setGroupConfig(udgv);
+			res.setMetalConfig(udmv);
+			return ResultUtil.successData(res); 
 		}catch(Exception e){ 
 			logger.error(e+"依据orgCode获取业务下的客户详情异常"); 
 			return ResultUtil.error("依据orgCode获取业务下的客户详情异常"); 

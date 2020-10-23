@@ -19,6 +19,19 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.ParseException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * @program: simple_tools
  * @description:
@@ -82,6 +95,51 @@ public class HttpUtils {
         return result.toString();
     }
 
+    /**
+     * 发送post请求
+     * @param url  路径
+     * @param jsonObject  参数(json类型)
+     * @param encoding 编码格式
+     * @return
+     * @throws ParseException
+     * @throws IOException
+     */
+    public static String sendPostByJson(String url, JSONObject jsonObject,String encoding) throws ParseException, IOException{
+        String body = "";
+ 
+        //创建httpclient对象
+        CloseableHttpClient client = HttpClients.createDefault();
+        //创建post方式请求对象
+        HttpPost httpPost = new HttpPost(url);
+ 
+        //装填参数
+        StringEntity s = new StringEntity(jsonObject.toString(), "utf-8");
+        s.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,
+                "application/json"));
+        //设置参数到请求对象中
+        httpPost.setEntity(s);
+       // System.out.println("请求地址："+url);
+//        System.out.println("请求参数："+nvps.toString());
+ 
+        //设置header信息
+        //指定报文头【Content-type】、【User-Agent】
+//        httpPost.setHeader("Content-type", "application/x-www-form-urlencoded");
+        httpPost.setHeader("Content-type", "application/json");
+        httpPost.setHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.0; Windows NT; DigExt)");
+ 
+        //执行请求操作，并拿到结果（同步阻塞）
+        CloseableHttpResponse response = client.execute(httpPost);
+        //获取结果实体
+        HttpEntity entity = response.getEntity();
+        if (entity != null) {
+            //按指定编码转换结果实体为String类型
+            body = EntityUtils.toString(entity, encoding);
+        }
+        EntityUtils.consume(entity);
+        //释放链接
+        response.close();
+        return body;
+    }
     /**
      * 功能描述:
      * 〈发送post请求,请求参数格式是 name1=value1&name2=value2 的形式。〉
@@ -218,9 +276,27 @@ public class HttpUtils {
         }
     }
     public static void main(String[] args) {
-    	long start=new Date().getTime();
-		String result=HttpUtils.sendPost("http://120.25.103.3/NewHtjApi", "");
-    	long end=new Date().getTime();
-		System.out.println( result+"\n时间："+(end-start)+"秒");
+    	JSONObject jb=new JSONObject();
+    	jb.put("password", "123123");
+    	jb.put("password2", "234234");
+    	jb.put("username", "234234");
+    	jb.put("uuid", "23432423");
+    	int i=0;
+    	while(i<10) {
+    		i++;
+        	String code=ShareCodeUtil.toSerialCode(1);
+        	jb.put("inviteCode", code);
+    		String result;
+    		try {
+    			result = HttpUtils.sendPostByJson("http://d7.2wsj5.cn/login", jb, "utf-8");
+    			System.out.println( result);
+    		} catch (ParseException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		} catch (IOException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    	}
 	}
 }
