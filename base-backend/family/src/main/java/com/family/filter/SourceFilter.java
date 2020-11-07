@@ -72,7 +72,7 @@ public class SourceFilter implements Filter {
 		String auth = req.getHeader(GlobayConst.TokenName);
 		//获取orgcode
 		String orgCode=req.getParameter(GlobayConst.ConstParamOrgCodeKey);
-		String iron=getFilterUrl(url,  "/api/","/login","/images/","/getImageVerifyCode","/getLeftMenu");//要忽略的
+		String iron=getFilterUrl(url,  "/api/","NewHtjApi","/login","/images/","/getImageVerifyCode","/getLeftMenu");//要忽略的
 		if(iron!=null) {
 			if(iron.contentEquals( "/api/")) {
 				//api接口需要orgcode
