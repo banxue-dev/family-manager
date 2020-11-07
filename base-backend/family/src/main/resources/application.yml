@@ -23,7 +23,7 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         url: jdbc:mysql://www.banxue.fun:3306/family?useUnicode=true&characterEncoding=UTF-8&useSSL=true&tinyInt1isBit=false&serverTimezone=GMT%2B8
         username: root
-        password: 123456
+        password: feng.123
         max-active: 100
         initial-size: 1
         max-wait: 60000
