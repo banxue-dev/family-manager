@@ -49,4 +49,9 @@ public interface IUserDiyMetalConfigService  {
 	* Auther:feng
 	*/ 
 	public ResultObject addNewUserDiyMetalConfig(UserDiyMetalConfig userDiyMetalConfig);
+	/**
+	 * 为指定的组织生成用户数据
+	 * @param orgCode
+	 */
+	void createOrgUseDiyMetalData(String orgCode);
 }

@@ -155,7 +155,7 @@ Logger logger=LoggerFactory.getLogger(PersonalInfoController.class);	/**
 	* Auther:feng
 	*/ 
 	@PostMapping("addPersonalInfo") 
-	@ApiOperation("添加业务下的客户") 
+	@ApiOperation("添加业务下的客户-完成后生成他的价格数据") 
 	@ApiImplicitParams({  })
 	public  ResultObject addPersonalInfo(PersonalInfoAD personalInfoad) {  
 		try{ 

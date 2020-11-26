@@ -1,7 +1,9 @@
 package com.family.gold.service.Impl; 
 import com.family.gold.entity.PersonalInfo; 
 import com.family.gold.mapper.PersonalInfoMapper; 
-import com.family.gold.service.IPersonalInfoService; 
+import com.family.gold.service.IPersonalInfoService;
+import com.family.gold.service.IUserDiyMetalConfigService;
+
 import org.springframework.stereotype.Service; 
 import com.family.utils.EntityChangeRquestView; 
 import com.family.gold.entity.VO.PersonalInfoVO; 
@@ -30,6 +32,8 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
 
 	@Autowired
 	private PersonalInfoMapper iPersonalInfoMapper;
+	@Autowired
+	private IUserDiyMetalConfigService userDiyMetalConfigService;
 
 	/** 
 	* 获取单页记录 
@@ -127,6 +131,8 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
 		if(i<1) {
 			return ResultUtil.error("更新失败");
 		}
+		//生成价格数据
+		userDiyMetalConfigService.createOrgUseDiyMetalData(personalInfo.getOrgCode());
 		return ResultUtil.success("成功");
 	}
 	/** 

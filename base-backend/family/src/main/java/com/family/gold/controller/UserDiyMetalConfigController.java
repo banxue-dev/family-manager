@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestHeader;   
 import springfox.documentation.annotations.ApiIgnore;  
 import org.slf4j.Logger; 
-import org.slf4j.LoggerFactory; 
+import org.slf4j.LoggerFactory;
+
+import com.alibaba.fastjson.JSONArray;
 import com.family.gold.entity.UserDiyMetalConfig; 
 import com.family.gold.entity.DO.UserDiyMetalConfigAD; 
 import com.family.gold.entity.VO.UserDiyMetalConfigVO; 
@@ -21,19 +23,20 @@ import java.util.List;
 import io.swagger.annotations.ApiOperation;  
 import com.family.utils.ResultObject;  
 import com.github.pagehelper.PageInfo; 
-import com.family.utils.LayuiPage; 
+import com.family.utils.LayuiPage;
+import com.family.utils.OrgCodeGreater;
 import com.family.utils.ResultUtil;  
 
 import com.family.utils.StringUtils;  
 
 /** 
-* 小心一测试控制器 
+* 价格数据控制器 
 * Auther:feng
 * Date:2020-10-22 09:02:06
 */ 
 @RestController 
 @RequestMapping("userDiyMetalConfig/v1.0") 
-@Api(tags = "小心一测试的接口") 
+@Api(tags = "价格数据的接口") 
 public class UserDiyMetalConfigController {  
 	@Autowired 
 	private IUserDiyMetalConfigService iUserDiyMetalConfigService; 
@@ -42,40 +45,40 @@ public class UserDiyMetalConfigController {
 
 
 Logger logger=LoggerFactory.getLogger(UserDiyMetalConfigController.class);	/** 
-	* 依据ID获取小心一测试详情 
+	* 依据ID获取价格数据详情 
 	* Auther:feng
 	*/ 
 	@PostMapping("getUserDiyMetalConfigSingleById") 
-	@ApiOperation("依据ID获取小心一测试详情") 
-	@ApiImplicitParams({ @ApiImplicitParam(name = "userDiyMetalConfigId", value = "小心一测试的id", required = false,example="1") })
+	@ApiOperation("依据ID获取价格数据详情") 
+	@ApiImplicitParams({ @ApiImplicitParam(name = "userDiyMetalConfigId", value = "价格数据的id", required = false,example="1") })
 	public  ResultObject getUserDiyMetalConfigSingleById(Long userDiyMetalConfigId) {  
 		try{ 
 		  UserDiyMetalConfigVO entity=new UserDiyMetalConfigVO(); 
 		  entity=iUserDiyMetalConfigService.getSingleInfoById(userDiyMetalConfigId); 
 		  return ResultUtil.successData(entity); 
 		}catch(Exception e){ 
-		  logger.error(e+"依据ID获取小心一测试详情异常"); 
-		  return ResultUtil.error("依据ID获取小心一测试详情异常"); 
+		  logger.error(e+"依据ID获取价格数据详情异常"); 
+		  return ResultUtil.error("依据ID获取价格数据详情异常"); 
 		} 
 	} 
 	/** 
-	* 获取小心一测试单条记录 
+	* 获取价格数据单条记录 
 	* Auther:feng
 	*/ 
 	@PostMapping("getUserDiyMetalConfigSingle") 
-	@ApiOperation("获取小心一测试单条记录") 
+	@ApiOperation("获取价格数据单条记录") 
 	@ApiImplicitParams({  })
 	public ResultObject getUserDiyMetalConfigSingle(UserDiyMetalConfigDO userDiyMetalConfig) {  
 		try{ 
 		 UserDiyMetalConfigVO userDiyMetalConfigVO=iUserDiyMetalConfigService.getSingleInfo(userDiyMetalConfig); 
 		  return ResultUtil.successData(userDiyMetalConfigVO); 
 		}catch(Exception e){ 
-		  logger.error(e+"获取小心一测试单条记录异常"); 
-		  return ResultUtil.error("获取小心一测试单条记录异常"); 
+		  logger.error(e+"获取价格数据单条记录异常"); 
+		  return ResultUtil.error("获取价格数据单条记录异常"); 
 		} 
 	} 
 	/** 
-	 * 获取小心一测试单条记录 
+	 * 获取价格数据单条记录 
 	 * Auther:feng
 	 */ 
 	@PostMapping("api/getUserDiyWaterByOrgCode") 
@@ -86,32 +89,32 @@ Logger logger=LoggerFactory.getLogger(UserDiyMetalConfigController.class);	/**
 			List<UserDiyMetalConfigVO> userDiyMetalConfigVO=iUserDiyMetalConfigService.getSingleInfoByOut(userDiyMetalConfig); 
 			return ResultUtil.successData(userDiyMetalConfigVO); 
 		}catch(Exception e){ 
-			logger.error(e+"获取小心一测试单条记录异常"); 
-			return ResultUtil.error("获取小心一测试单条记录异常"); 
+			logger.error(e+"获取价格数据单条记录异常"); 
+			return ResultUtil.error("获取价格数据单条记录异常"); 
 		} 
 	} 
 	/** 
-	* 获取小心一测试列表 
+	* 获取价格数据列表 
 	* Auther:feng
 	*/ 
 	@PostMapping("getUserDiyMetalConfigList") 
-	@ApiOperation("获取小心一测试列表") 
+	@ApiOperation("获取价格数据列表") 
 	@ApiImplicitParams({ })
 	public ResultObject getUserDiyMetalConfigList(UserDiyMetalConfigDO userDiyMetalConfig) {  
 		try{ 
 		  List<UserDiyMetalConfigVO> lst = iUserDiyMetalConfigService.getUserDiyMetalConfigList(userDiyMetalConfig); 
 		  return ResultUtil.successData(lst); 
 		}catch(Exception e){ 
-		  logger.error(e+"获取小心一测试列表记录异常"); 
-		  return ResultUtil.error("获取小心一测试列表记录异常"); 
+		  logger.error(e+"获取价格数据列表记录异常"); 
+		  return ResultUtil.error("获取价格数据列表记录异常"); 
 		} 
 	} 
 	/** 
-	* 获取小心一测试分页数据 
+	* 获取价格数据分页数据 
 	* Auther:feng
 	*/ 
 	@PostMapping("getUserDiyMetalConfigListByPage") 
-	@ApiOperation("获取小心一测试分页数据") 
+	@ApiOperation("获取价格数据分页数据") 
 	@ApiImplicitParams({@ApiImplicitParam(name = "pageNum", value = "当前页", required = true,example="1"), 
 	@ApiImplicitParam(name = "pageSize", value = "每页大小", required = true,example="1"), 
 	@ApiImplicitParam(name = "sort", value = "排序依据字段", required = false,example="1"), 
@@ -121,16 +124,16 @@ Logger logger=LoggerFactory.getLogger(UserDiyMetalConfigController.class);	/**
 		try{ 
 		  return iUserDiyMetalConfigService.getUserDiyMetalConfigListByPage(userDiyMetalConfig, layuiPage); 
 		}catch(Exception e){ 
-		  logger.error(e+"获取小心一测试分页记录异常"); 
+		  logger.error(e+"获取价格数据分页记录异常"); 
 		  return layuiPage;
 		} 
 	} 
 	/** 
-	* 添加小心一测试方法 
+	* 添加价格数据方法 
 	* Auther:feng
 	*/ 
 	@PostMapping("addUserDiyMetalConfig") 
-	@ApiOperation("添加小心一测试") 
+	@ApiOperation("添加价格数据") 
 	@ApiImplicitParams({  })
 	public  ResultObject addUserDiyMetalConfig(UserDiyMetalConfigAD userDiyMetalConfigad) {  
 		try{ 
@@ -138,16 +141,16 @@ Logger logger=LoggerFactory.getLogger(UserDiyMetalConfigController.class);	/**
 		  return iUserDiyMetalConfigService.addNewUserDiyMetalConfig(userDiyMetalConfig); 
 		  //return ResultUtil.success("成功"); 
 		}catch(Exception e){ 
-		  logger.error(e+"添加小心一测试异常"); 
-		  return ResultUtil.error("添加小心一测试异常"); 
+		  logger.error(e+"添加价格数据异常"); 
+		  return ResultUtil.error("添加价格数据异常"); 
 		} 
 	} 
 	/** 
-	* 修改小心一测试方法 
+	* 修改价格数据方法 
 	* Auther:feng
 	*/ 
 	@PostMapping("modUserDiyMetalConfig") 
-	@ApiOperation("修改小心一测试") 
+	@ApiOperation("修改价格数据") 
 	@ApiImplicitParams({  })
 	public  ResultObject modUserDiyMetalConfig(UserDiyMetalConfigAD userDiyMetalConfigad) {  
 		try{ 
@@ -155,16 +158,39 @@ Logger logger=LoggerFactory.getLogger(UserDiyMetalConfigController.class);	/**
 			  return iUserDiyMetalConfigService.modUserDiyMetalConfig(userDiyMetalConfig); 
 			  //return ResultUtil.success("成功"); 
 		}catch(Exception e){ 
-		  logger.error(e+"修改小心一测试异常"); 
-		  return ResultUtil.error("修改小心一测试异常"); 
+		  logger.error(e+"修改价格数据异常"); 
+		  return ResultUtil.error("修改价格数据异常"); 
 		} 
 	} 
 	/** 
-	* 删除小心一测试 
+	 * 修改价格数据方法 
+	 * Auther:feng
+	 */ 
+	@PostMapping("api/modUserDiyMetalConfigByJson") 
+	@ApiOperation("修改价格数据") 
+	@ApiImplicitParams({  })
+	public  ResultObject modUserDiyMetalConfigByJson(String orgCode,String resv) {  
+		try{ 
+			if(StringUtils.isNull(resv)) {
+				return ResultUtil.error("未做任何改动"); 
+			}
+			List<UserDiyMetalConfig> lst=JSONArray.parseArray(resv,UserDiyMetalConfig.class);
+			for(UserDiyMetalConfig t:lst) {
+				t.setOrgCode(OrgCodeGreater.decode(orgCode));
+				iUserDiyMetalConfigService.modUserDiyMetalConfig(t); 
+			}
+			return ResultUtil.success("成功"); 
+		}catch(Exception e){ 
+			logger.error(e+"修改价格数据异常"); 
+			return ResultUtil.error("修改价格数据异常"); 
+		} 
+	} 
+	/** 
+	* 删除价格数据 
 	* Auther:feng
 	*/ 
 	@PostMapping("delUserDiyMetalConfig") 
-	@ApiOperation("删除小心一测试方法") 
+	@ApiOperation("删除价格数据方法") 
 	@ApiImplicitParams({ @ApiImplicitParam(name = "userDiyMetalConfigIds", value = "主键id数据",example="1", required = false) })
 	public  ResultObject delUserDiyMetalConfig(String userDiyMetalConfigIds) {  
 		try{ 
@@ -177,8 +203,8 @@ Logger logger=LoggerFactory.getLogger(UserDiyMetalConfigController.class);	/**
 		 }
 		 return ResultUtil.success();  
 		}catch(Exception e){ 
-		  logger.error(e+"删除小心一测试方法异常 "); 
-		  return ResultUtil.error("删除小心一测试方法异常 "); 
+		  logger.error(e+"删除价格数据方法异常 "); 
+		  return ResultUtil.error("删除价格数据方法异常 "); 
 		} 
 	} 
 }

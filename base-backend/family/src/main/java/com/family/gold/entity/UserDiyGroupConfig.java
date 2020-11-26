@@ -32,12 +32,22 @@ public class UserDiyGroupConfig {
 	@Column(name="org_code")
 	@ApiModelProperty(value = "组织机构名称")
 	private String orgCode;
+	@Column(name="group_code")
+	@ApiModelProperty(value = "分组编码")
+	private Integer groupCode;
 
 	@Column(name="create_time")
 	@ApiModelProperty(value = "创建时间")
 	private String createTime;
 
 
+	
+	public Integer getGroupCode() {
+		return groupCode;
+	}
+	public void setGroupCode(Integer groupCode) {
+		this.groupCode = groupCode;
+	}
 	/**
 	 *主键
 	 */ 

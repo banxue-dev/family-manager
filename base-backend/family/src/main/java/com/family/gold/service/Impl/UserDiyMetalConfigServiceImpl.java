@@ -1,25 +1,29 @@
 package com.family.gold.service.Impl; 
-import com.family.gold.entity.UserDiyMetalConfig; 
-import com.family.gold.mapper.UserDiyMetalConfigMapper; 
-import com.family.gold.service.IUserDiyMetalConfigService; 
-import org.springframework.stereotype.Service; 
-import com.family.utils.EntityChangeRquestView; 
-import com.family.gold.entity.VO.UserDiyMetalConfigVO; 
-import com.family.gold.entity.DO.UserDiyMetalConfigDO; 
-import com.github.pagehelper.PageHelper; 
-import com.family.utils.ResultUtil; 
-import com.family.utils.ResultObject; 
-import javax.persistence.Transient; 
-import org.springframework.transaction.annotation.Transactional; 
-import tk.mybatis.mapper.entity.Example; 
-import java.util.ArrayList; 
-import com.family.utils.TimeUtils; 
-import com.github.pagehelper.PageInfo; 
-import com.family.utils.LayuiPage; 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.family.gold.entity.UserDiyGroupConfig;
+import com.family.gold.entity.UserDiyMetalConfig;
+import com.family.gold.entity.DO.UserDiyMetalConfigDO;
+import com.family.gold.entity.VO.UserDiyMetalConfigVO;
+import com.family.gold.mapper.UserDiyGroupConfigMapper;
+import com.family.gold.mapper.UserDiyMetalConfigMapper;
+import com.family.gold.service.IUserDiyMetalConfigService;
+import com.family.utils.EntityChangeRquestView;
+import com.family.utils.LayuiPage;
+import com.family.utils.ResultObject;
+import com.family.utils.ResultUtil;
 import com.family.utils.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired; 
-import java.util.Map; 
-import java.util.List; 
+import com.family.utils.TimeUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import tk.mybatis.mapper.entity.Example; 
 /** 
 * UserDiyMetalConfig服务层 
 * Auther:feng
@@ -30,6 +34,8 @@ public class UserDiyMetalConfigServiceImpl implements IUserDiyMetalConfigService
 
 	@Autowired
 	private UserDiyMetalConfigMapper iUserDiyMetalConfigMapper;
+	@Autowired
+	private UserDiyGroupConfigMapper iUserDiyGroupConfigMapper;
 
 	/** 
 	* 获取单页记录 
@@ -154,5 +160,33 @@ public class UserDiyMetalConfigServiceImpl implements IUserDiyMetalConfigService
 	public List<UserDiyMetalConfigVO> getSingleInfoByOut(UserDiyMetalConfigDO userDiyMetalConfigDO) {
 		// TODO Auto-generated method stub
 		return iUserDiyMetalConfigMapper.getSingleInfoByOut(userDiyMetalConfigDO.getOrgCode());
+	}
+	/**
+	 * 为指定的组织生成用户数据
+	 */
+	@Override
+	public void createOrgUseDiyMetalData(String orgCode) {
+		/**
+		 * 先把default获取出来，再复制
+		 */
+		String defstr="default";
+		UserDiyGroupConfig defGroup=new UserDiyGroupConfig();
+		defGroup.setOrgCode(defstr);
+		List<UserDiyGroupConfig> defgs=iUserDiyGroupConfigMapper.select(defGroup);
+		for(UserDiyGroupConfig ng:defgs) {
+			ng.setGoldUserDiyGroupConfigId(null);
+			ng.setOrgCode(orgCode);
+			iUserDiyGroupConfigMapper.insertSelective(ng);
+		}
+		UserDiyMetalConfig defParam=new UserDiyMetalConfig();
+		defParam.setOrgCode(defstr);
+		List<UserDiyMetalConfig> defs=iUserDiyMetalConfigMapper.select(defParam);
+		for(UserDiyMetalConfig n:defs) {
+			n.setGoldUserDiyMetalConfigId(null);
+			n.setOrgCode(orgCode);
+			n.setBuyBackWater(BigDecimal.ZERO);
+			n.setSaleWater(BigDecimal.ZERO);
+			iUserDiyMetalConfigMapper.insertSelective(n);
+		}
 	}
 }

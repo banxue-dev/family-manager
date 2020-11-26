@@ -31,6 +31,15 @@ public class UserDiyGroupConfigVO {
 	private String createTime;
 
 
+	@ApiModelProperty(value = "分组编码")
+	private Integer groupCode;
+	
+	public Integer getGroupCode() {
+		return groupCode;
+	}
+	public void setGroupCode(Integer groupCode) {
+		this.groupCode = groupCode;
+	}
 	/**
 	 *主键
 	 */ 

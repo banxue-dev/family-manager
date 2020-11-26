@@ -29,8 +29,16 @@ public class UserDiyGroupConfigAD {
 
 	@ApiModelProperty(value = "创建时间")
 	private String createTime;
+	@ApiModelProperty(value = "分组编码")
+	private Integer groupCode;
 
-
+	
+	public Integer getGroupCode() {
+		return groupCode;
+	}
+	public void setGroupCode(Integer groupCode) {
+		this.groupCode = groupCode;
+	}
 	/**
 	 *主键
 	 */ 
