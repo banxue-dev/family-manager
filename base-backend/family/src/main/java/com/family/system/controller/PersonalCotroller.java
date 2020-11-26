@@ -35,6 +35,7 @@ import com.family.utils.VerifyCode;
 import com.github.benmanes.caffeine.cache.Cache;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.lang.UUID;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -70,7 +71,8 @@ public class PersonalCotroller {
             }
 
             System.out.println("服务器文件地址:"+hostPath);
-            String fileName = System.currentTimeMillis() + file.getOriginalFilename();
+            String hz= file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            String fileName = System.currentTimeMillis() + UUID.randomUUID().toString()+hz;
             FileUtil.writeBytes(file.getBytes(), hostPath + fileName);
             System.out.println("文件"+hostPath + fileName);
             return ResultUtil.successData(webImgPath.replaceAll("\\*\\*",fileName));
