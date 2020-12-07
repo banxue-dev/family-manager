@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.family.business.entity.Customer;
 import com.family.business.mapper.CustomerMapper;
 import com.family.gold.entity.ChangePrice;
@@ -55,13 +56,13 @@ public class ChangePriceController {
 	/**
 	 * 获取黄金调价的相关配置单条记录 Auther:feng
 	 */
-	@PostMapping("NeedAuthPrice")
+	@PostMapping("NeedAuthPrice1")
 	@ApiOperation("获取实行的黄金价格-非调价数据")
 	@ApiImplicitParams({})
 	public String getTimesGoldData(String orgCode) {
 		try {
-			int i=ifValidate(orgCode);
-			if(i<1) {
+			ResultObject i=ifValidate(orgCode);
+			if(!i.isSuccess()) {
 				return "授权已过期，请联系管理员续费";
 			}
 			if(GoldGetTimes.data.size()<=0) {
@@ -77,13 +78,39 @@ public class ChangePriceController {
 	/**
 	 * 获取黄金调价的相关配置单条记录 Auther:feng
 	 */
+	@PostMapping("NeedAuthPrice")
+	@ApiOperation("获取实行的黄金价格-非调价数据")
+	@ApiImplicitParams({})
+	public ResultObject getTimesGoldDataJSON(String orgCode) {
+		try {
+			ResultObject i=ifValidate(orgCode);
+			if(!i.isSuccess()) {
+				return ResultUtil.error(ResultUtil.Result_Code_Auth_Times, "授权已过期，请联系管理员续费");
+			}
+			if(GoldGetTimes.data.size()<=0) {
+				return ResultUtil.successData("[]");
+			}
+//			int res=r.nextInt(GoldGetTimes.data.size());
+			JSONObject jb=new JSONObject();
+			jb.put("times", i.getData());
+			jb.put("data", GoldGetTimes.data.get(GoldGetTimes.data.size()-1));
+			return ResultUtil.successData(jb);
+//			 return GoldGetTimes.data.get(GoldGetTimes.data.size()-1);
+		} catch (Exception e) {
+			logger.error(e + "获取黄金调价的相关配置单条记录异常");
+			return ResultUtil.successData("[]");
+		}
+	}
+	/**
+	 * 获取黄金调价的相关配置单条记录 Auther:feng
+	 */
 	@PostMapping("HdwerIDsdg")
 	@ApiOperation("获取实行的黄金价格-非调价数据-对外，需要组织机构")
 	@ApiImplicitParams({})
 	public String getTimesGoldData2(String orgCode) {
 		try {
-			int i=ifValidate(orgCode);
-			if(i<1) {
+			ResultObject i=ifValidate(orgCode);
+			if(!i.isSuccess()) {
 				return "请勿非法访问";
 			}
 			if(GoldGetTimes.data.size()<=0) {
@@ -96,7 +123,7 @@ public class ChangePriceController {
 			return "[]";
 		}
 	}
-	public int ifValidate(String orgCode) {
+	public ResultObject ifValidate(String orgCode) {
 		if(customerList.size()<1) {
 			resetCustomerList();
 		}
@@ -111,12 +138,16 @@ public class ChangePriceController {
 					}
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
-					logger.error("判断是否有效时出现时间转换异常");
+					logger.error(e+"判断是否有效时出现时间转换异常");
+					return ResultUtil.error("授权已过期");
 				}
-				return 1;
+				//返回还有多久过期
+				long abs=TimeUtils.getTimeDiffSecond(TimeUtils.getCurrentTime(), org.getCustomerValidate(), TimeUtils.DATETIME_FORMAT);
+				return ResultUtil.success(abs);
 			}
 		}
-		return 0;
+		logger.debug("");
+		return ResultUtil.error("授权已过期");
 	}
 	/**
 	 * 依据ID获取黄金调价的相关配置详情 Auther:feng
@@ -126,8 +157,8 @@ public class ChangePriceController {
 	@ApiImplicitParams({})
 	public ResultObject getChangePriceSingleByOrgCode(ChangePriceDO changePrice) {
 		try {
-			int i=ifValidate(changePrice.getEncodeOrgCode());
-			if(i<1) {
+			ResultObject i=ifValidate(changePrice.getEncodeOrgCode());
+			if(!i.isSuccess()) {
 				return ResultUtil.error("授权已过期，请联系管理员续费");
 			}
 			ChangePriceVO changePriceVO = iChangePriceService.getSingleInfo(changePrice);
