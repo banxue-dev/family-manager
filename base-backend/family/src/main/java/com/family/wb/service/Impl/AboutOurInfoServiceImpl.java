@@ -1,26 +1,26 @@
 package com.family.wb.service.Impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.family.utils.EntityChangeRquestView;
+import com.family.utils.LayuiPage;
+import com.family.utils.ResultObject;
+import com.family.utils.ResultUtil;
+import com.family.utils.StringUtils;
 import com.family.wb.entity.AboutOurInfo;
+import com.family.wb.entity.DO.AboutOurInfoDO;
+import com.family.wb.entity.VO.AboutOurInfoVO;
 import com.family.wb.mapper.AboutOurInfoMapper;
 import com.family.wb.service.IAboutOurInfoService;
-import org.springframework.stereotype.Service;
-import com.family.utils.EntityChangeRquestView;
-import com.family.wb.entity.VO.AboutOurInfoVO;
-import com.family.wb.entity.DO.AboutOurInfoDO;
 import com.github.pagehelper.PageHelper;
-import com.family.utils.ResultUtil;
-import com.family.utils.ResultObject;
-import javax.persistence.Transient;
-import org.springframework.transaction.annotation.Transactional;
-import tk.mybatis.mapper.entity.Example;
-import java.util.ArrayList;
-import com.family.utils.TimeUtils;
 import com.github.pagehelper.PageInfo;
-import com.family.utils.LayuiPage;
-import com.family.utils.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.Map;
-import java.util.List;
+
+import tk.mybatis.mapper.entity.Example;
 
 /**
  * AboutOurInfo服务层 Auther:feng Date:2020-12-17 10:29:59
@@ -63,7 +63,7 @@ public class AboutOurInfoServiceImpl implements IAboutOurInfoService {
 		lst.forEach(t -> {
 			AboutOurInfoVO vo = this.structDetailData(t);
 			if (vo != null) {
-				vo.setOurIntroduce(vo.getOurIntroduce().substring(0,(vo.getOurIntroduce().length()>20?20:vo.getOurIntroduce().length())));
+				//vo.setOurIntroduce(vo.getOurIntroduce().substring(0,(vo.getOurIntroduce().length()>20?20:vo.getOurIntroduce().length())));
 				lstVO.add(vo);
 			}
 		});
@@ -90,7 +90,7 @@ public class AboutOurInfoServiceImpl implements IAboutOurInfoService {
 		lst.forEach(t -> {
 			AboutOurInfoVO vo = this.structDetailData(t);
 			if (vo != null) {
-				vo.setOurIntroduce(vo.getOurIntroduce().substring(0,(vo.getOurIntroduce().length()>20?20:vo.getOurIntroduce().length())));
+				//vo.setOurIntroduce(vo.getOurIntroduce().substring(0,(vo.getOurIntroduce().length()>20?20:vo.getOurIntroduce().length())));
 				lstVO.add(vo);
 			}
 		});
@@ -131,6 +131,13 @@ public class AboutOurInfoServiceImpl implements IAboutOurInfoService {
 	@Override
 	@Transactional
 	public ResultObject addNewAboutOurInfo(AboutOurInfo aboutOurInfo) {
+		AboutOurInfo isHave=new AboutOurInfo();
+		isHave.setOrgCode(aboutOurInfo.getOrgCode());
+		isHave= iAboutOurInfoMapper.selectOne(isHave);
+		if(isHave!=null) {
+			aboutOurInfo.setAboutOurId(isHave.getAboutOurId());
+			return this.modAboutOurInfo(aboutOurInfo);
+		}
 		int i = iAboutOurInfoMapper.insertSelective(aboutOurInfo);
 		if (i < 1) {
 			return ResultUtil.error("更新失败");
