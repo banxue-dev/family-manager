@@ -70,7 +70,7 @@ public class ServiceRangeInfoServiceImpl implements IServiceRangeInfoService {
 		lst.forEach(t -> {
 			ServiceRangeInfoVO vo = this.structDetailData(t);
 			if (vo != null) {
-				vo.setRangeContent(vo.getRangeContent().substring(0,(vo.getRangeContent().length()>20?20:vo.getRangeContent().length())));
+				//vo.setRangeContent(vo.getRangeContent().substring(0,(vo.getRangeContent().length()>20?20:vo.getRangeContent().length())));
 				lstVO.add(vo);
 			}
 		});
@@ -95,7 +95,7 @@ public class ServiceRangeInfoServiceImpl implements IServiceRangeInfoService {
 		List<ServiceRangeInfo> lst = iServiceRangeInfoMapper.selectByExample(example);
 		PageInfo pageInfo = PageInfo.of(lst);
 		GroupConfig gcp=new GroupConfig();
-		gcp.setGroupType(0);
+		gcp.setGroupType(3);
 		List<GroupConfig> gcs=iGroupConfiMapper.select(gcp);
 		Map<Integer,String> maps=new HashMap<Integer,String>();
 		maps.put(0, "");
@@ -104,9 +104,9 @@ public class ServiceRangeInfoServiceImpl implements IServiceRangeInfoService {
 		}
 		for(ServiceRangeInfo t:lst){
 			ServiceRangeInfoVO vo = this.structDetailData(t);
-			vo.setRangeGroupName(maps.get(vo.getRangeGroupId()));
 			if (vo != null) {
-				vo.setRangeContent(vo.getRangeContent().substring(0,(vo.getRangeContent().length()>20?20:vo.getRangeContent().length())));
+				vo.setRangeGroupName(maps.get(vo.getRangeGroupId()));
+//				vo.setRangeContent(vo.getRangeContent().substring(0,(vo.getRangeContent().length()>20?20:vo.getRangeContent().length())));
 				lstVO.add(vo);
 			}
 		};
