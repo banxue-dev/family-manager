@@ -62,7 +62,7 @@ Logger logger=LoggerFactory.getLogger(AboutOurInfoController.class);	/**
 	* 获取关于我们，及一些展示单条记录 
 	* Auther:feng
 	*/ 
-	@PostMapping("getAboutOurInfoSingle") 
+	@PostMapping("api/getAboutOurInfoSingle") 
 	@ApiOperation("获取关于我们，及一些展示单条记录") 
 	@ApiImplicitParams({  })
 	public ResultObject getAboutOurInfoSingle(AboutOurInfoDO aboutOurInfo) {  
