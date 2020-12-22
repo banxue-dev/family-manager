@@ -28,7 +28,7 @@ public class GoldGetTimes {
 
 	private static Logger logger=LoggerFactory.getLogger(GoldGetTimes.class);
 	public static List<String> data=new ArrayList<String>();
-	private static int max=20;
+	private static int max=10;
 	
 	@Value("${goldtimesinterface}")
 	private String url;
