@@ -51,8 +51,8 @@ public class GoldController {
 			if(GoldGetTimes.data.size()<=0) {
 				return "[]";
 			}
-			int res=r.nextInt(GoldGetTimes.data.size());
-			 return GoldGetTimes.data.get(res);
+//			int res=r.nextInt(GoldGetTimes.data.size());
+			 return GoldGetTimes.data.get(GoldGetTimes.data.size()-1);
 		} catch (Exception e) {
 			logger.error(e + "获取黄金调价的相关配置单条记录异常");
 			return "[]";
