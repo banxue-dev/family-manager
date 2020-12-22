@@ -1,30 +1,31 @@
 package com.family.normal.controller; 
-import org.springframework.web.bind.annotation.RestController; 
-import org.springframework.web.bind.annotation.PostMapping;   
-import org.springframework.web.bind.annotation.RequestMapping;   
-import org.springframework.web.bind.annotation.RequestHeader;   
-import springfox.documentation.annotations.ApiIgnore;  
-import org.slf4j.Logger; 
-import org.slf4j.LoggerFactory; 
-import com.family.normal.entity.ImgManager; 
-import com.family.normal.entity.DO.ImgManagerAD; 
-import com.family.normal.entity.VO.ImgManagerVO; 
-import com.family.normal.entity.DO.ImgManagerDO; 
-import com.family.normal.service.IImgManagerService; 
-import com.family.normal.mapper.ImgManagerMapper; 
-import org.springframework.beans.factory.annotation.Autowired;   
-import com.family.utils.EntityChangeRquestView;   
-import io.swagger.annotations.Api;   
-import io.swagger.annotations.ApiImplicitParam;   
-import io.swagger.annotations.ApiImplicitParams;   
-import java.util.List;  
-import io.swagger.annotations.ApiOperation;  
-import com.family.utils.ResultObject;  
-import com.github.pagehelper.PageInfo; 
-import com.family.utils.LayuiPage; 
-import com.family.utils.ResultUtil;  
+import java.io.File;
+import java.util.List;
 
-import com.family.utils.StringUtils;  
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.family.normal.entity.ImgManager;
+import com.family.normal.entity.DO.ImgManagerAD;
+import com.family.normal.entity.DO.ImgManagerDO;
+import com.family.normal.entity.VO.ImgManagerVO;
+import com.family.normal.mapper.ImgManagerMapper;
+import com.family.normal.service.IImgManagerService;
+import com.family.utils.EntityChangeRquestView;
+import com.family.utils.LayuiPage;
+import com.family.utils.ResultObject;
+import com.family.utils.ResultUtil;
+import com.family.utils.StringUtils;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;  
 
 /** 
 * 图片管理控制器 
@@ -40,8 +41,9 @@ public class ImgManagerController {
 	@Autowired 
 	private ImgManagerMapper iImgManagerMapper; 
 
-
-Logger logger=LoggerFactory.getLogger(ImgManagerController.class);	/** 
+	@Value("${uploadFile.hostPath}")
+    private String hostPath;
+	Logger logger=LoggerFactory.getLogger(ImgManagerController.class);	/** 
 	* 依据ID获取图片管理详情 
 	* Auther:feng
 	*/ 
@@ -157,7 +159,17 @@ Logger logger=LoggerFactory.getLogger(ImgManagerController.class);	/**
 		  }
 		 String[] strs=imgManagerIds.split(",");
 		 for(String str:strs) {
-			  iImgManagerMapper.deleteByPrimaryKey(str);
+			 try {
+
+				 ImgManager im=iImgManagerMapper.selectByPrimaryKey(str);
+				 File f1=new File(hostPath+im.getImgPath());
+				 File f2=new File(hostPath+im.getThumImgPath());
+				 f1.delete();
+				 f2.delete();
+			 }catch(Exception dl) {
+				 logger.error("物理删除图片时失败");
+			 }
+			 iImgManagerMapper.deleteByPrimaryKey(str);
 		 }
 		 return ResultUtil.success();  
 		}catch(Exception e){ 

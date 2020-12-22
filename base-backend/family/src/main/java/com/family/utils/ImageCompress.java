@@ -5,13 +5,20 @@ package com.family.utils;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 
 import javax.imageio.ImageIO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
+
+import cn.hutool.core.io.FileUtil;
+import net.coobird.thumbnailator.Thumbnails;
 
 /**
  * 图片压缩
@@ -74,7 +81,25 @@ public class ImageCompress {
             logger.error("压缩图片出错"+ef);
         }
     }
+    /**
+     * 写入压缩图片
+     * @param absolutePath
+     * @param file
+     */
+    public static void WriteComparessImg(String absolutePath,MultipartFile file,Float scale) {
+    	//记录原MultipartFile，如果压缩异常就用原来的MultipartFile
+        MultipartFile oldMultipartFile = file;
+        try {
+//            Thumbnails.of(file.getInputStream()).scale(0.25f).outputQuality(0.99f).toFile(absolutePath);
+            Thumbnails.of(file.getInputStream()).size(120, 60).keepAspectRatio(false).toFile(absolutePath);
+        } catch (IOException e) {
+            logger.error("压缩图片失败{}", e);
+            file = oldMultipartFile;
+        }
+		//上传图片压缩end
+    }
 
+    
     /**
      * 获取图片宽度和高度
      * 

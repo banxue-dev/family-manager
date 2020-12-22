@@ -72,7 +72,7 @@ public class PersonalCotroller {
     private String contextPath;
     
     //限制的文件类型
-    private static String limitFile="png,jpg,jpeg,gif,bmp";
+    private static String limitFile=".png.jpg.jpeg.gif.bmp";
     /**
      * 上传图片
      * @param file
@@ -90,9 +90,9 @@ public class PersonalCotroller {
             	return ResultUtil.error("文件异常，只能上传"+limitFile+"的格式文件");
             }
             String fileName = System.currentTimeMillis() + UUID.randomUUID().toString()+hz;
-            String compressName=hostPath+"compress"+fileName;
+           // String compressName=hostPath+"compress"+fileName;
             FileUtil.writeBytes(file.getBytes(), hostPath + fileName);
-            ImageCompress.reduceImg(file.getInputStream(), compressName, hz, 120, 60, 0.2f);
+            //ImageCompress.reduceImg(file.getInputStream(), compressName, hz, 120, 60, 0.2f);
             String url=webImgPath.replaceAll("\\*\\*",fileName);
 			/*
 			 * String uh=request.getScheme()+"://"+request.getServerName()+":"+request.
@@ -120,12 +120,17 @@ public class PersonalCotroller {
             	return ResultUtil.error("文件异常，只能上传"+limitFile+"的格式文件");
             }
             String fileName = System.currentTimeMillis() + UUID.randomUUID().toString()+hz;
-            String compressName=hostPath+"compress"+fileName;
+            String compressName="compress"+fileName;
             FileUtil.writeBytes(file.getBytes(), hostPath + fileName);
-            ImageCompress.reduceImg(file.getInputStream(), compressName, hz, 120, 60, 0.2f);
+            ImageCompress.WriteComparessImg(hostPath+compressName, file, 0.9f);
+            ImgManager im=new ImgManager();
             String url=webImgPath.replaceAll("\\*\\*",fileName);
+            im.setLink(url);
+            im.setThumImgPath(compressName);
+            im.setImgPath(fileName);
+            im.setThumbnailLink(webImgPath.replaceAll("\\*\\*",compressName));
 //            String uh=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+contextPath;
-            return ResultUtil.successData(url);
+            return ResultUtil.successData(im);
         } catch (Exception e) {
             e.printStackTrace();
             logger.warn("上传文件失败！");

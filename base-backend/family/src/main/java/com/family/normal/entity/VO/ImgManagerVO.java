@@ -12,7 +12,7 @@ import java.util.Date;
 /** 
 * ImgManager实体层 
 * Auther:feng
-* Date:2020-12-16 15:47:27
+* Date:2020-12-22 12:59:28
 */ 
 
 @ApiModel("图片管理")
@@ -32,6 +32,15 @@ public class ImgManagerVO {
 
 	@ApiModelProperty(value = "缩略图地址")
 	private String thumbnailLink;
+
+	@ApiModelProperty(value = "图片来源")
+	private String imgSource;
+
+	@ApiModelProperty(value = "图片路径")
+	private String imgPath;
+
+	@ApiModelProperty(value = "缩略图path")
+	private String thumImgPath;
 
 
 	/**
@@ -93,6 +102,42 @@ public class ImgManagerVO {
 	 */ 
 	public String getThumbnailLink(){
 		return thumbnailLink;
+	}
+	/**
+	 *图片来源
+	 */ 
+	public void setImgSource(String imgSource){
+		this.imgSource=imgSource;
+	}
+	/**
+	 *图片来源
+	 */ 
+	public String getImgSource(){
+		return imgSource;
+	}
+	/**
+	 *图片路径
+	 */ 
+	public void setImgPath(String imgPath){
+		this.imgPath=imgPath;
+	}
+	/**
+	 *图片路径
+	 */ 
+	public String getImgPath(){
+		return imgPath;
+	}
+	/**
+	 *缩略图path
+	 */ 
+	public void setThumImgPath(String thumImgPath){
+		this.thumImgPath=thumImgPath;
+	}
+	/**
+	 *缩略图path
+	 */ 
+	public String getThumImgPath(){
+		return thumImgPath;
 	}
 }
 
