@@ -50,8 +50,11 @@ public class UserDiyMetalConfig {
 	private Integer constraintLen;
 
 	@Column(name="group_id")
-	@ApiModelProperty(value = "是那个组的",example="1")
+	@ApiModelProperty(value = "是那个组的,移动端",example="1")
 	private Integer groupId;
+	@Column(name="pc_group_id")
+	@ApiModelProperty(value = "是那个组的pc端",example="1")
+	private Integer pcGroupId;
 
 	@Column(name="buy_back_water")
 	@ApiModelProperty(value = "回购调价",example="1")
@@ -72,6 +75,13 @@ public class UserDiyMetalConfig {
 		this.sort = sort;
 	}
 
+	
+	public Integer getPcGroupId() {
+		return pcGroupId;
+	}
+	public void setPcGroupId(Integer pcGroupId) {
+		this.pcGroupId = pcGroupId;
+	}
 	/**
 	 *主键
 	 */ 

@@ -21,12 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.family.configuration.GlobayConst;
+import com.family.normal.entity.ImgManager;
+import com.family.normal.service.IImgManagerService;
 import com.family.system.entity.User;
 import com.family.system.entity.DO.UserAD;
 import com.family.system.entity.VO.UserVO;
 import com.family.system.mapper.UserMapper;
 import com.family.system.service.IUserService;
 import com.family.utils.EntityChangeRquestView;
+import com.family.utils.ImageCompress;
 import com.family.utils.PassCodeChange;
 import com.family.utils.ResultObject;
 import com.family.utils.ResultUtil;
@@ -54,6 +57,9 @@ public class PersonalCotroller {
 	private IUserService iUserService;
 	@Autowired
 	private UserMapper iUserMapper;
+	
+	@Autowired
+	private IImgManagerService imgManagerService;
 	@Resource(name="verifyCode")
     Cache<String, String> verifyCache;
 
@@ -62,20 +68,64 @@ public class PersonalCotroller {
     private String hostPath;
     @Value("${uploadFile.webImgPath}")
     private String webImgPath;
+    @Value("${server.servlet.context-path}")
+    private String contextPath;
+    
+    //限制的文件类型
+    private static String limitFile="png,jpg,jpeg,gif,bmp";
+    /**
+     * 上传图片
+     * @param file
+     * @return
+     */
     @RequestMapping(value = "uploadHead", method = RequestMethod.POST)
     @ResponseBody
-    public ResultObject ossFileUpload(@RequestParam("file") MultipartFile file) {
+    public ResultObject ossFileUpload(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
         try {
             if (file.isEmpty()) {
                 return ResultUtil.error("文件是空的");
             }
-
-            System.out.println("服务器文件地址:"+hostPath);
             String hz= file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            if(limitFile.indexOf(hz.toLowerCase())<0) {
+            	return ResultUtil.error("文件异常，只能上传"+limitFile+"的格式文件");
+            }
             String fileName = System.currentTimeMillis() + UUID.randomUUID().toString()+hz;
+            String compressName=hostPath+"compress"+fileName;
             FileUtil.writeBytes(file.getBytes(), hostPath + fileName);
-            System.out.println("文件"+hostPath + fileName);
-            return ResultUtil.successData(webImgPath.replaceAll("\\*\\*",fileName));
+            ImageCompress.reduceImg(file.getInputStream(), compressName, hz, 120, 60, 0.2f);
+            String url=webImgPath.replaceAll("\\*\\*",fileName);
+			/*
+			 * String uh=request.getScheme()+"://"+request.getServerName()+":"+request.
+			 * getServerPort()+contextPath; ImgManager imgManager=new ImgManager();
+			 * imgManager.setLink(uh+'/'+url);
+			 * imgManager.setFileName(file.getOriginalFilename());
+			 * imgManagerService.addNewImgManager(imgManager);
+			 */
+            return ResultUtil.successData(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.warn("上传文件失败！");
+            return ResultUtil.error("上传文件失败");
+        }
+    }
+    @RequestMapping(value = "uploadImg", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultObject uploadImg(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
+        try {
+            if (file.isEmpty()) {
+                return ResultUtil.error("文件是空的");
+            }
+            String hz= file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            if(limitFile.indexOf(hz.toLowerCase())<0) {
+            	return ResultUtil.error("文件异常，只能上传"+limitFile+"的格式文件");
+            }
+            String fileName = System.currentTimeMillis() + UUID.randomUUID().toString()+hz;
+            String compressName=hostPath+"compress"+fileName;
+            FileUtil.writeBytes(file.getBytes(), hostPath + fileName);
+            ImageCompress.reduceImg(file.getInputStream(), compressName, hz, 120, 60, 0.2f);
+            String url=webImgPath.replaceAll("\\*\\*",fileName);
+//            String uh=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+contextPath;
+            return ResultUtil.successData(url);
         } catch (Exception e) {
             e.printStackTrace();
             logger.warn("上传文件失败！");

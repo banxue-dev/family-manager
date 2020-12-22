@@ -51,7 +51,8 @@ public class UserDiyMetalConfigVO {
 	@ApiModelProperty(value = "销售调价",example="1")
 	private BigDecimal saleWater;
 	
-
+	@ApiModelProperty(value = "是那个组的pc端",example="1")
+	private Integer pcGroupId;
 	
 	
 	public BigDecimal getBuyBackWater() {
@@ -83,6 +84,13 @@ public class UserDiyMetalConfigVO {
 	 */ 
 	public void setGoldUserDiyMetalConfigId(Long goldUserDiyMetalConfigId){
 		this.goldUserDiyMetalConfigId=goldUserDiyMetalConfigId;
+	}
+	
+	public Integer getPcGroupId() {
+		return pcGroupId;
+	}
+	public void setPcGroupId(Integer pcGroupId) {
+		this.pcGroupId = pcGroupId;
 	}
 	/**
 	 *主键

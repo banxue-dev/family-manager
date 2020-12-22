@@ -44,6 +44,8 @@ public class UserDiyMetalConfigAD {
 
 	@ApiModelProperty(value = "回购调价",example="1")
 	private BigDecimal buyBackWater;
+	@ApiModelProperty(value = "是那个组的pc端",example="1")
+	private Integer pcGroupId;
 
 	@ApiModelProperty(value = "销售调价",example="1")
 	private BigDecimal saleWater;
@@ -75,6 +77,13 @@ public class UserDiyMetalConfigAD {
 	 */ 
 	public void setSourceMetaId(Long sourceMetaId){
 		this.sourceMetaId=sourceMetaId;
+	}
+	
+	public Integer getPcGroupId() {
+		return pcGroupId;
+	}
+	public void setPcGroupId(Integer pcGroupId) {
+		this.pcGroupId = pcGroupId;
 	}
 	/**
 	 *引用的那个源数据

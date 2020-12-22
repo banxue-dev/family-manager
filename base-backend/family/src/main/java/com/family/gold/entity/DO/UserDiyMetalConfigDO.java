@@ -48,6 +48,8 @@ public class UserDiyMetalConfigDO {
 	@ApiModelProperty(value = "销售调价",example="1")
 	private BigDecimal saleWater;
 
+	@ApiModelProperty(value = "是那个组的pc端",example="1")
+	private Integer pcGroupId;
 
 	@ApiModelProperty(value = "排序顺序越大，越靠后",example="1")
 	private Integer sort;
@@ -70,6 +72,13 @@ public class UserDiyMetalConfigDO {
 	 */ 
 	public Long getGoldUserDiyMetalConfigId(){
 		return goldUserDiyMetalConfigId;
+	}
+	
+	public Integer getPcGroupId() {
+		return pcGroupId;
+	}
+	public void setPcGroupId(Integer pcGroupId) {
+		this.pcGroupId = pcGroupId;
 	}
 	/**
 	 *引用的那个源数据
