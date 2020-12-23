@@ -8,15 +8,14 @@ import java.math.BigDecimal;
 import com.family.utils.StringUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
 /** 
 * FriendshipLinkInfo实体层 
 * Auther:feng
-* Date:2020-12-16 15:41:19
+* Date:2020-12-23 09:39:59
 */ 
 
 @Table(name = "wb_friendship_link_info")
-@ApiModel("")
+@ApiModel("友情链接")
 public class FriendshipLinkInfo {
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -32,6 +31,10 @@ public class FriendshipLinkInfo {
 	@Column(name="link_url")
 	@ApiModelProperty(value = "地址")
 	private String linkUrl;
+
+	@Column(name="org_code")
+	@ApiModelProperty(value = "组织机构")
+	private String orgCode;
 
 
 	/**
@@ -69,6 +72,18 @@ public class FriendshipLinkInfo {
 	 */ 
 	public String getLinkUrl(){
 		return linkUrl;
+	}
+	/**
+	 *组织机构
+	 */ 
+	public void setOrgCode(String orgCode){
+		this.orgCode=orgCode;
+	}
+	/**
+	 *组织机构
+	 */ 
+	public String getOrgCode(){
+		return orgCode;
 	}
 }
 

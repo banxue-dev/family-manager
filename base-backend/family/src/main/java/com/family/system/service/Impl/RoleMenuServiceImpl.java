@@ -1,25 +1,28 @@
 package com.family.system.service.Impl; 
-import com.family.system.entity.RoleMenu; 
-import com.family.system.mapper.RoleMenuMapper; 
-import com.family.system.service.IRoleMenuService; 
-import org.springframework.stereotype.Service; 
-import com.family.utils.EntityChangeRquestView; 
-import com.family.system.entity.VO.RoleMenuVO; 
-import com.family.system.entity.DO.RoleMenuDO; 
-import com.github.pagehelper.PageHelper; 
-import com.family.utils.ResultUtil; 
-import com.family.utils.ResultObject; 
-import javax.persistence.Transient; 
-import org.springframework.transaction.annotation.Transactional; 
-import tk.mybatis.mapper.entity.Example; 
-import java.util.ArrayList; 
-import com.family.utils.TimeUtils; 
-import com.github.pagehelper.PageInfo; 
-import com.family.utils.LayuiPage; 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.family.system.entity.RoleMenu;
+import com.family.system.entity.DO.RoleMenuDO;
+import com.family.system.entity.VO.RoleMenuVO;
+import com.family.system.mapper.RoleMenuMapper;
+import com.family.system.service.IRoleMenuService;
+import com.family.utils.EntityChangeRquestView;
+import com.family.utils.LayuiPage;
+import com.family.utils.ResultObject;
+import com.family.utils.ResultUtil;
 import com.family.utils.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired; 
-import java.util.Map; 
-import java.util.List; 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import tk.mybatis.mapper.entity.Example; 
 /** 
 * RoleMenu服务层 
 * Auther:feng
@@ -125,16 +128,53 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 		if(StringUtils.isNullStrings(menuIds,roleId)) {
 			 ResultUtil.error("参数错误");
 		}
-		RoleMenu remove=new RoleMenu();
-		remove.setRoleId(Integer.parseInt(roleId));
-		iRoleMenuMapper.delete(remove);
+		RoleMenu hapar=new RoleMenu();
+		hapar.setRoleId(Integer.parseInt(roleId));
+		List<RoleMenu> haves=iRoleMenuMapper.select(hapar);
 		String[] menuArr=menuIds.split(",");
+//		List<String> newmes=Arrays.asList(menuArr);
+		List<Integer> newmes=new ArrayList<>();
 		for(String menuId:menuArr) {
-			RoleMenu rm=new RoleMenu();
-			rm.setMenuId(Integer.parseInt(menuId));
-			rm.setRoleId(Integer.parseInt(roleId));
-			iRoleMenuMapper.insertSelective(rm);
+			newmes.add(Integer.parseInt(menuId));
 		}
+		if(haves.size()>0) {
+			List<Integer> haveIds = haves.stream().map(p -> p.getMenuId()).collect(Collectors.toList());
+			Map<Integer,Integer> haveMaps=haves.stream().collect(Collectors.toMap(RoleMenu::getMenuId, RoleMenu::getRoleMenuId));
+			//先求删除的，既新的在老的里面没有，就是新添加的
+			for(Integer menuId:newmes) {
+				if(haveIds.indexOf(menuId)==-1) {
+					RoleMenu rm=new RoleMenu();
+					rm.setMenuId(menuId);
+					rm.setRoleId(Integer.parseInt(roleId));
+					iRoleMenuMapper.insertSelective(rm);
+				}
+			}
+			//找添加的，既老的在新的里面没有，就是被删了
+			for(Integer hid:haveIds) {
+				if(newmes.indexOf(hid)==-1) {
+					//没有，表示被删除了
+					iRoleMenuMapper.deleteByPrimaryKey(haveMaps.get(hid));
+				}
+			}
+		}else {
+			for(String menuId:menuArr) {
+				RoleMenu rm=new RoleMenu();
+				rm.setMenuId(Integer.parseInt(menuId));
+				rm.setRoleId(Integer.parseInt(roleId));
+				iRoleMenuMapper.insertSelective(rm);
+			}
+		}
+		
+//		RoleMenu remove=new RoleMenu();
+//		remove.setRoleId(Integer.parseInt(roleId));
+//		iRoleMenuMapper.delete(remove);
+//		String[] menuArr=menuIds.split(",");
+//		for(String menuId:menuArr) {
+//			RoleMenu rm=new RoleMenu();
+//			rm.setMenuId(Integer.parseInt(menuId));
+//			rm.setRoleId(Integer.parseInt(roleId));
+//			iRoleMenuMapper.insertSelective(rm);
+//		}
 		return ResultUtil.success("成功");
 	}
 	/** 

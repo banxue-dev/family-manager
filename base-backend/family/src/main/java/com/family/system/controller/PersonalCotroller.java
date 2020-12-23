@@ -110,7 +110,8 @@ public class PersonalCotroller {
     }
     @RequestMapping(value = "uploadImg", method = RequestMethod.POST)
     @ResponseBody
-    public ResultObject uploadImg(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
+    public ResultObject uploadImg(@RequestParam("file") MultipartFile file,HttpServletRequest request,String sfileName
+) {
         try {
             if (file.isEmpty()) {
                 return ResultUtil.error("文件是空的");
@@ -123,14 +124,19 @@ public class PersonalCotroller {
             String compressName="compress"+fileName;
             FileUtil.writeBytes(file.getBytes(), hostPath + fileName);
             ImageCompress.WriteComparessImg(hostPath+compressName, file, 0.9f);
-            ImgManager im=new ImgManager();
             String url=webImgPath.replaceAll("\\*\\*",fileName);
-            im.setLink(url);
+            String uh=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+contextPath;
+            ImgManager im=new ImgManager();
+            im.setFileName(sfileName);
+            im.setLink(uh+url);
             im.setThumImgPath(compressName);
             im.setImgPath(fileName);
-            im.setThumbnailLink(webImgPath.replaceAll("\\*\\*",compressName));
-//            String uh=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+contextPath;
-            return ResultUtil.successData(im);
+            im.setThumbnailLink(uh+webImgPath.replaceAll("\\*\\*",compressName));
+            ResultObject ro=imgManagerService.addNewImgManager(im);
+            if(!ro.isSuccess()) {
+            	return ResultUtil.error("添加失败");
+            }
+            return ResultUtil.success();
         } catch (Exception e) {
             e.printStackTrace();
             logger.warn("上传文件失败！");
