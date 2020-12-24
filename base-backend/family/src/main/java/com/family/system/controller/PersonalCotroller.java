@@ -125,7 +125,7 @@ public class PersonalCotroller {
             FileUtil.writeBytes(file.getBytes(), hostPath + fileName);
             ImageCompress.WriteComparessImg(hostPath+compressName, file, 0.9f);
             String url=webImgPath.replaceAll("\\*\\*",fileName);
-            String uh=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+contextPath;
+            String uh=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+contextPath+"/";
             ImgManager im=new ImgManager();
             im.setFileName(sfileName);
             im.setLink(uh+url);
