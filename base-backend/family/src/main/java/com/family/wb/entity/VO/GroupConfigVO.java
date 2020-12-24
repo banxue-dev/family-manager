@@ -28,11 +28,21 @@ public class GroupConfigVO {
 
 	@ApiModelProperty(value = "0:案例，1：新闻，3服务范畴",example="1")
 	private Integer groupType;
+	@ApiModelProperty(value = "0:案例，1：新闻，3服务范畴",example="1")
+	private String groupTypeName;
 
 	@ApiModelProperty(value = "分组的图片")
 	private String groupImg;
 
+	
+	
 
+	public String getGroupTypeName() {
+		return groupTypeName;
+	}
+	public void setGroupTypeName(String groupTypeName) {
+		this.groupTypeName = groupTypeName;
+	}
 	/**
 	 *主键
 	 */ 

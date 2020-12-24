@@ -11,10 +11,10 @@ import io.swagger.annotations.ApiModelProperty;
 /** 
 * BannerInfo实体层 
 * Auther:feng
-* Date:2020-12-16 15:41:17
+* Date:2020-12-24 10:39:22
 */ 
 
-@ApiModel("")
+@ApiModel("官网的banner表,包含多个")
 public class BannerInfoVO {
 	private static final long serialVersionUID = 1L;
 	@ApiModelProperty(value = "主键",example="1")
@@ -29,7 +29,19 @@ public class BannerInfoVO {
 	@ApiModelProperty(value = "要跳转的链接")
 	private String bannerOutUrl;
 
+	@ApiModelProperty(value = "所属类型-来自于groupTyoe",example="1")
+	private Integer bannerGroupTypeId;
+	@ApiModelProperty(value = "所属类型-来自于groupTyoe",example="1")
+	private String bannerGroupTypeName;
 
+
+	
+	public String getBannerGroupTypeName() {
+		return bannerGroupTypeName;
+	}
+	public void setBannerGroupTypeName(String bannerGroupTypeName) {
+		this.bannerGroupTypeName = bannerGroupTypeName;
+	}
 	/**
 	 *主键
 	 */ 
@@ -77,6 +89,18 @@ public class BannerInfoVO {
 	 */ 
 	public String getBannerOutUrl(){
 		return bannerOutUrl;
+	}
+	/**
+	 *所属类型-来自于groupTyoe
+	 */ 
+	public void setBannerGroupTypeId(Integer bannerGroupTypeId){
+		this.bannerGroupTypeId=bannerGroupTypeId;
+	}
+	/**
+	 *所属类型-来自于groupTyoe
+	 */ 
+	public Integer getBannerGroupTypeId(){
+		return bannerGroupTypeId;
 	}
 }
 
