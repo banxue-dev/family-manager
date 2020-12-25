@@ -49,19 +49,19 @@ public class ChangePrice {
 	@ApiModelProperty(value = "银售价",example="1")
 	private BigDecimal xagsale;
 
-	@Column(name="ptbuy")
+	@Column(name="xptbuy")
 	@ApiModelProperty(value = "铂金买价",example="1")
 	private BigDecimal ptbuy;
 
-	@Column(name="ptsale")
+	@Column(name="xptsale")
 	@ApiModelProperty(value = "铂金售价",example="1")
 	private BigDecimal ptsale;
 
-	@Column(name="pdbuy")
+	@Column(name="xpdbuy")
 	@ApiModelProperty(value = "钯金买价",example="1")
 	private BigDecimal pdbuy;
 
-	@Column(name="pdsale")
+	@Column(name="xpdsale")
 	@ApiModelProperty(value = "钯金售价",example="1")
 	private BigDecimal pdsale;
 
