@@ -63,7 +63,16 @@ public class PersonalInfoVO {
 	private String contentColorType;
 	@ApiModelProperty(value="内容中的li的背景")
 	private String cellBackColor;
+	@ApiModelProperty(value="默认的分列字段颜色---回购和销售的")
+	private String defaultTextColor;
 
+	
+	public String getDefaultTextColor() {
+		return defaultTextColor;
+	}
+	public void setDefaultTextColor(String defaultTextColor) {
+		this.defaultTextColor = defaultTextColor;
+	}
 	
 	
 	

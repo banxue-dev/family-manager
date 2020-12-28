@@ -53,7 +53,16 @@ public class PersonalInfoDO {
 
 	@ApiModelProperty(value = "组织的logo")
 	private String customerLogo;
+	@ApiModelProperty(value="默认的分列字段颜色---回购和销售的")
+	private String defaultTextColor;
 
+	
+	public String getDefaultTextColor() {
+		return defaultTextColor;
+	}
+	public void setDefaultTextColor(String defaultTextColor) {
+		this.defaultTextColor = defaultTextColor;
+	}
 
 	/**
 	 *主键
