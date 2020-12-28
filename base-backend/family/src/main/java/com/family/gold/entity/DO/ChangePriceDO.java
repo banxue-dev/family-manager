@@ -33,16 +33,16 @@ public class ChangePriceDO {
 	private BigDecimal xagsale;
 
 	@ApiModelProperty(value = "铂金买价",example="1")
-	private BigDecimal ptbuy;
+	private BigDecimal xptbuy;
 
 	@ApiModelProperty(value = "铂金售价",example="1")
-	private BigDecimal ptsale;
+	private BigDecimal xptsale;
 
 	@ApiModelProperty(value = "钯金买价",example="1")
-	private BigDecimal pdbuy;
+	private BigDecimal xpdbuy;
 
 	@ApiModelProperty(value = "钯金售价",example="1")
-	private BigDecimal pdsale;
+	private BigDecimal xpdsale;
 
 	@ApiModelProperty(value = "18k金买价",example="1")
 	private BigDecimal au18buy;
@@ -161,53 +161,30 @@ public class ChangePriceDO {
 	public BigDecimal getXagsale(){
 		return xagsale;
 	}
-	/**
-	 *铂金买价
-	 */ 
-	public void setPtbuy(BigDecimal ptbuy){
-		this.ptbuy=ptbuy;
+	
+	public BigDecimal getXptbuy() {
+		return xptbuy;
 	}
-	/**
-	 *铂金买价
-	 */ 
-	public BigDecimal getPtbuy(){
-		return ptbuy;
+	public void setXptbuy(BigDecimal xptbuy) {
+		this.xptbuy = xptbuy;
 	}
-	/**
-	 *铂金售价
-	 */ 
-	public void setPtsale(BigDecimal ptsale){
-		this.ptsale=ptsale;
+	public BigDecimal getXptsale() {
+		return xptsale;
 	}
-	/**
-	 *铂金售价
-	 */ 
-	public BigDecimal getPtsale(){
-		return ptsale;
+	public void setXptsale(BigDecimal xptsale) {
+		this.xptsale = xptsale;
 	}
-	/**
-	 *钯金买价
-	 */ 
-	public void setPdbuy(BigDecimal pdbuy){
-		this.pdbuy=pdbuy;
+	public BigDecimal getXpdbuy() {
+		return xpdbuy;
 	}
-	/**
-	 *钯金买价
-	 */ 
-	public BigDecimal getPdbuy(){
-		return pdbuy;
+	public void setXpdbuy(BigDecimal xpdbuy) {
+		this.xpdbuy = xpdbuy;
 	}
-	/**
-	 *钯金售价
-	 */ 
-	public void setPdsale(BigDecimal pdsale){
-		this.pdsale=pdsale;
+	public BigDecimal getXpdsale() {
+		return xpdsale;
 	}
-	/**
-	 *钯金售价
-	 */ 
-	public BigDecimal getPdsale(){
-		return pdsale;
+	public void setXpdsale(BigDecimal xpdsale) {
+		this.xpdsale = xpdsale;
 	}
 	/**
 	 *18k金买价
