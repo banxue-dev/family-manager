@@ -51,7 +51,7 @@ public class ChangePriceController {
 
 	Logger logger = LoggerFactory.getLogger(ChangePriceController.class);
 
-	private static List<Customer> customerList=new ArrayList<>();//存储的orgcode
+	public static List<Customer> customerList=new ArrayList<>();//存储的orgcode
 	private static Random r = new Random();
 	/**
 	 * 获取黄金调价的相关配置单条记录 Auther:feng
