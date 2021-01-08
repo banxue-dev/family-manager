@@ -127,6 +127,17 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
 	@Transactional
 	public ResultObject addNewPersonalInfo(PersonalInfo personalInfo) {
 		personalInfo.setCreateTime(TimeUtils.getCurrentTime());
+		/**
+		 * 添加默认模板
+		 */
+		PersonalInfo def=new PersonalInfo();
+		def.setOrgCode("default");
+		def=iPersonalInfoMapper.selectOne(def);
+		personalInfo.setTmpCellHtml(def.getTmpCellHtml());
+		personalInfo.setTmpStartHtml(def.getTmpStartHtml());
+		personalInfo.setTmpEndHtml(def.getTmpEndHtml());
+		personalInfo.setTmpHeadHtml(def.getTmpHeadHtml());
+		personalInfo.setTmpChangeHtml(def.getTmpChangeHtml());
 		int i= iPersonalInfoMapper.insertSelective(personalInfo);
 		if(i<1) {
 			return ResultUtil.error("更新失败");

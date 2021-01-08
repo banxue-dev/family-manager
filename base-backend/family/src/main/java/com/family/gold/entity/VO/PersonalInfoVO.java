@@ -65,11 +65,57 @@ public class PersonalInfoVO {
 	private String cellBackColor;
 	@ApiModelProperty(value="默认的分列字段颜色---回购和销售的")
 	private String defaultTextColor;
-	@ApiModelProperty(value="默认的分列字段颜色---回购和销售的")
+	
+	@ApiModelProperty(value="边框样式")
 	private String cellBorder;
+	@ApiModelProperty(value="模板开始")
+	private String tmpStartHtml;
+	@ApiModelProperty(value="模板中列")
+	private String tmpCellHtml;
+	@ApiModelProperty(value="模板结束")
+	private String tmpEndHtml;
+	@ApiModelProperty(value="模板标题头")
+	private String tmpHeadHtml;
+	@ApiModelProperty(value="模板调价题头")
+	private String tmpChangeHtml;
+	
+	
 
 	
 	
+	public String getTmpChangeHtml() {
+		return tmpChangeHtml;
+	}
+	public void setTmpChangeHtml(String tmpChangeHtml) {
+		this.tmpChangeHtml = tmpChangeHtml;
+	}
+
+	
+	
+	public String getTmpStartHtml() {
+		return tmpStartHtml;
+	}
+	public void setTmpStartHtml(String tmpStartHtml) {
+		this.tmpStartHtml = tmpStartHtml;
+	}
+	public String getTmpCellHtml() {
+		return tmpCellHtml;
+	}
+	public void setTmpCellHtml(String tmpCellHtml) {
+		this.tmpCellHtml = tmpCellHtml;
+	}
+	public String getTmpEndHtml() {
+		return tmpEndHtml;
+	}
+	public void setTmpEndHtml(String tmpEndHtml) {
+		this.tmpEndHtml = tmpEndHtml;
+	}
+	public String getTmpHeadHtml() {
+		return tmpHeadHtml;
+	}
+	public void setTmpHeadHtml(String tmpHeadHtml) {
+		this.tmpHeadHtml = tmpHeadHtml;
+	}
 	public String getCellBorder() {
 		return cellBorder;
 	}
