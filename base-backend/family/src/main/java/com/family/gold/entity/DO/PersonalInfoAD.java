@@ -68,7 +68,17 @@ public class PersonalInfoAD {
 	
 	@ApiModelProperty(value="默认的分列字段颜色---回购和销售的")
 	private String defaultTextColor;
+	@ApiModelProperty(value="默认的分列字段颜色---回购和销售的")
+	private String cellBorder;
 
+	
+	
+	public String getCellBorder() {
+		return cellBorder;
+	}
+	public void setCellBorder(String cellBorder) {
+		this.cellBorder = cellBorder;
+	}
 	
 	public String getDefaultTextColor() {
 		return defaultTextColor;
