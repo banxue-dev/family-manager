@@ -80,6 +80,42 @@ public class ShareCodeUtil {
         return res;
     }
     public static void main(String[] args) {
-		System.out.println(ShareCodeUtil.toSerialCode(1));
+    	String me="";
+    	String ne="";
+    	System.out.println(me);
+    	boolean check=false;
+    	for(int j=0;j<1000000;j++) {
+	    	if(j%1000==0) {
+	    		System.out.println("第"+j+"次");
+	    	}
+			for(int i=0;i<10000;i++) {
+				ne=cr();
+				me=cr();
+				//System.out.println(ne);
+				if(me.contentEquals(ne)) {
+					System.err.println("中奖啦"+me);
+					check=true;
+					break;
+				}
+			}
+			if(check) {
+				break;
+			}
+    	}
+		
 	}
+    public static String cr() {
+    	Random rd=new Random();
+		String res="";
+		int r=33;
+		for(int i=0;i<7;i++) {
+			int s=rd.nextInt(r);
+			s+=1;
+			res+=(s+",");
+			if(i>=6) {
+				r=16;
+			}
+		}
+		return res;
+    }
 }

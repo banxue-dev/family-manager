@@ -181,11 +181,13 @@ public class UserDiyMetalConfigServiceImpl implements IUserDiyMetalConfigService
 		UserDiyMetalConfig defParam=new UserDiyMetalConfig();
 		defParam.setOrgCode(defstr);
 		List<UserDiyMetalConfig> defs=iUserDiyMetalConfigMapper.select(defParam);
+		String nowTime=TimeUtils.getCurrentTime();
 		for(UserDiyMetalConfig n:defs) {
 			n.setGoldUserDiyMetalConfigId(null);
 			n.setOrgCode(orgCode);
 			n.setBuyBackWater(BigDecimal.ZERO);
 			n.setSaleWater(BigDecimal.ZERO);
+			n.setCreateTime(nowTime);
 			iUserDiyMetalConfigMapper.insertSelective(n);
 		}
 	}
