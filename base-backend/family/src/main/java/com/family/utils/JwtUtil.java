@@ -8,6 +8,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 /**
  * @author Administrator
@@ -27,7 +29,7 @@ public class JwtUtil {
         JWTCreator.Builder builder = JWT.create();
         Date now = new Date();
         Date expireAt = getExpireAt(now,expireTime);
-        String token  = builder.withClaim(username, false)
+        String token  = builder.withClaim("username", username)
                 .withIssuer("user")
                 .withSubject(subject)
                 .withExpiresAt(expireAt)
@@ -36,6 +38,18 @@ public class JwtUtil {
         return token ;
     }
 
+    /**
+     * 获得token中的信息无需secret解密也能获得
+     * @return token中包含的用户名
+     */
+    public static String getUsername(String token) {
+        try {
+            DecodedJWT jwt = JWT.decode(token);
+            return jwt.getClaim("username").asString();
+        } catch (JWTDecodeException e) {
+            return null;
+        }
+    }
     public static  boolean verify(String token) {
         try {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(mHMAC256Secret)).build();

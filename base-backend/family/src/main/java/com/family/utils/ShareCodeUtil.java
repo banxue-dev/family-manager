@@ -80,35 +80,84 @@ public class ShareCodeUtil {
         return res;
     }
     public static void main(String[] args) {
+    	crdoubleopen();
+		
+	}
+    public static void crdoubleopen() {
     	String me="";
     	String ne="";
-    	System.out.println(me);
-    	boolean check=false;
+
+		String[] nes;
+		String[] mes;
+		String n="";
+		String rt=",";
+		String lt="-";
+    	boolean check=true;
+    	boolean temc=false;
     	for(int j=0;j<1000000;j++) {
 	    	if(j%1000==0) {
 	    		System.out.println("第"+j+"次");
 	    	}
-			for(int i=0;i<10000;i++) {
-				ne=cr();
-				me=cr();
-				//System.out.println(ne);
-				if(me.contentEquals(ne)) {
-					System.err.println("中奖啦"+me);
-					check=true;
-					break;
+			ne=crdouble();
+			//System.out.println(ne+"---------");
+			for(int i=0;i<1000;i++) {
+				me=crdouble();
+				nes=ne.split(lt)[0].split(rt);
+				mes=me.split(lt)[0].split(rt);
+				//System.out.println(me+"---------");
+				for(String s:nes) {
+					temc=false;
+					for(String t:mes) {
+						if(s.contentEquals(t)) {
+							temc=true;
+						}
+					}
+					if(!temc) {
+						//System.out.println("无效："+s);
+						check=false;
+						break;
+					}
+				}
+				if(check) {
+					if(!me.contains(lt+ne.split(lt)[1])) {
+						check=false;
+					}
 				}
 			}
 			if(check) {
-				break;
+				System.out.println("号码"+ne+"中奖啦:"+me);
 			}
     	}
-		
-	}
-    public static String cr() {
+    }
+    public static String crdouble() {
+    	Random rd=new Random();
+		String res="";
+		String reg=",";
+		int r=33;
+		for(int i=0;i<7;i++) {
+			int s=rd.nextInt(r);
+			s+=1;
+			if(s<10) {
+
+				res+=("0"+s+reg);
+			}else {
+				res+=(s+reg);
+			}
+			if(i>=4) {
+				r=16;
+				reg="-";
+			}
+			if(i>=5) {
+				reg="";
+			}
+		}
+		return res;
+    }
+    public static String crle() {
     	Random rd=new Random();
 		String res="";
 		int r=33;
-		for(int i=0;i<7;i++) {
+		for(int i=0;i<8;i++) {
 			int s=rd.nextInt(r);
 			s+=1;
 			res+=(s+",");
