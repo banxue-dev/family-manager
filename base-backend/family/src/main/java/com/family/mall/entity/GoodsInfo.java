@@ -12,7 +12,7 @@ import java.util.Date;
 /** 
 * GoodsInfo实体层 
 * Auther:feng
-* Date:2021-03-08 18:16:20
+* Date:2021-03-09 09:17:13
 */ 
 
 @Table(name = "mall_goods_info")
@@ -57,9 +57,13 @@ public class GoodsInfo {
 	@ApiModelProperty(value = "创建时间")
 	private String createTime;
 
-	@Column(name="goods_mail")
-	@ApiModelProperty(value = "")
-	private String goodsMail;
+	@Column(name="goods_express")
+	@ApiModelProperty(value = "运费,为0表示包邮")
+	private String goodsExpress;
+
+	@Column(name="goods_buy_img")
+	@ApiModelProperty(value = "购买的图片二维码")
+	private String goodsBuyImg;
 
 
 	/**
@@ -171,16 +175,28 @@ public class GoodsInfo {
 		  if(StringUtils.isNotNull(createTime)) {if(createTime.contains(".0")) {return createTime.replace(".0", "");}}return createTime;
 	}
 	/**
-	 *
+	 *运费,为0表示包邮
 	 */ 
-	public void setGoodsMail(String goodsMail){
-		this.goodsMail=goodsMail;
+	public void setGoodsExpress(String goodsExpress){
+		this.goodsExpress=goodsExpress;
 	}
 	/**
-	 *
+	 *运费,为0表示包邮
 	 */ 
-	public String getGoodsMail(){
-		return goodsMail;
+	public String getGoodsExpress(){
+		return goodsExpress;
+	}
+	/**
+	 *购买的图片二维码
+	 */ 
+	public void setGoodsBuyImg(String goodsBuyImg){
+		this.goodsBuyImg=goodsBuyImg;
+	}
+	/**
+	 *购买的图片二维码
+	 */ 
+	public String getGoodsBuyImg(){
+		return goodsBuyImg;
 	}
 }
 

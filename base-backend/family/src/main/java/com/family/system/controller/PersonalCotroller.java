@@ -74,7 +74,7 @@ public class PersonalCotroller {
     //限制的文件类型
     private static String limitFile=".png.jpg.jpeg.gif.bmp";
     /**
-     * 上传图片
+     * 单纯上传图片，会返回图片路径
      * @param file
      * @return
      */
