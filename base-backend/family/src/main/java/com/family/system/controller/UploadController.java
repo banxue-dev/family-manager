@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.family.configuration.GlobayConst;
 import com.family.normal.entity.FileSystem;
 import com.family.normal.entity.ImgManager;
+import com.family.normal.service.IFileSystemService;
 import com.family.normal.service.IImgManagerService;
 import com.family.system.entity.User;
 import com.family.system.entity.DO.UserAD;
@@ -45,35 +46,30 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 一些获取个人信息的接口
+ * 上传的接口
  * @author tWX932595
  *
  */
 
 @RestController
-@RequestMapping("personal/v1.0")
-public class PersonalCotroller {
+@RequestMapping("upload/v1.0")
+public class UploadController {
 
-	@Autowired
-	private IUserService iUserService;
-	@Autowired
-	private UserMapper iUserMapper;
 	@Autowired
 	private IImgManagerService imgManagerService;
-	
-	@Resource(name="verifyCode")
-    Cache<String, String> verifyCache;
+	@Autowired
+	private IFileSystemService fileSystemService;
 
-	Logger logger = LoggerFactory.getLogger(PersonalCotroller.class);
+	Logger logger = LoggerFactory.getLogger(UploadController.class);
 	@Value("${uploadFile.hostPath}")
     private String hostPath;
     @Value("${uploadFile.webImgPath}")
     private String webImgPath;
     @Value("${server.servlet.context-path}")
     private String contextPath;
-    
     //限制的文件类型
     private static String limitImg=".png.jpg.jpeg.gif.bmp";
+    private static String limitFile=".doc.xls.xlsx.txt.zip.ppt.pdf.docx";
     /**
      	*  单纯上传图片，会返回图片路径
      * @param file
@@ -95,7 +91,7 @@ public class PersonalCotroller {
            // String compressName=hostPath+"compress"+fileName;
             FileUtil.writeBytes(file.getBytes(), hostPath +imgdir+ fileName);
             //ImageCompress.reduceImg(file.getInputStream(), compressName, hz, 120, 60, 0.2f);
-            String url=webImgPath.replaceAll("\\*\\*",imgdir+fileName);
+            String url=webImgPath.replaceAll("\\*\\*",imgdir+ fileName);
 			/*
 			 * String uh=request.getScheme()+"://"+request.getServerName()+":"+request.
 			 * getServerPort()+contextPath; ImgManager imgManager=new ImgManager();
@@ -127,14 +123,14 @@ public class PersonalCotroller {
             String compressName="compress"+fileName;
             FileUtil.writeBytes(file.getBytes(), hostPath +imgdir+ fileName);
             ImageCompress.WriteComparessImg(hostPath+compressName, file, 0.9f);
-            String url=webImgPath.replaceAll("\\*\\*",imgdir+fileName);
+            String url=webImgPath.replaceAll("\\*\\*",imgdir+ fileName);
             String uh=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+contextPath+"/";
             ImgManager im=new ImgManager();
             im.setFileName(sfileName);
             im.setLink(uh+url);
             im.setThumImgPath(imgdir+compressName);
             im.setImgPath(imgdir+fileName);
-            im.setThumbnailLink(uh+webImgPath.replaceAll("\\*\\*",compressName));
+            im.setThumbnailLink(uh+webImgPath.replaceAll("\\*\\*",imgdir+ compressName));
             ResultObject ro=imgManagerService.addNewImgManager(im);
             if(!ro.isSuccess()) {
             	return ResultUtil.error("添加失败");
@@ -146,85 +142,36 @@ public class PersonalCotroller {
             return ResultUtil.error("上传文件失败");
         }
     }
-	/**
-	 * 依据ID获取系统用户表详情 Auther:feng
-	 */
-	@PostMapping("getUserById")
-	@ApiOperation("依据ID获取系统用户表详情")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "userId", value = "系统用户表的id", required = false, example = "1") })
-	public ResultObject getUserSingleById(@RequestHeader("userId")Integer userId) {
-		try {
-			UserVO entity = new UserVO();
-			entity = iUserService.getSingleInfoById(userId);
-			return ResultUtil.successData(entity);
-		} catch (Exception e) {
-			logger.error(e + "依据ID获取系统用户表详情异常");
-			return ResultUtil.error("异常");
-		}
-	}
-	/**
-	 * 依据ID获取系统用户表详情 Auther:feng
-	 */
-	@PostMapping("saveUserInfo")
-	@ApiOperation("获取当前登录用户信息")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "userId", value = "系统用户表的id", required = false, example = "1") })
-	public ResultObject saveUserInfo(UserAD user,@RequestHeader("userId")Integer userId) {
-		try {
-			user.setUserId(userId);
-			user.setUserPwd(null);
-			iUserService.modUser(EntityChangeRquestView.createDOToEntity(user, new User()));
-			return ResultUtil.success("成功");
-		} catch (Exception e) {
-			logger.error(e + "依据ID获取系统用户表详情异常");
-			return ResultUtil.error("异常");
-		}
-	}
-	/**
-	 * 依据ID获取系统用户表详情 Auther:feng
-	 */
-	@PostMapping("updatePassword")
-	@ApiOperation("用户修改密码")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "userId", value = "系统用户表的id", required = false, example = "1") })
-	public ResultObject updatePassword(String oldPass,String newPass,@RequestHeader("userId")Integer userId) {
-		try {
-			User old=iUserMapper.selectByPrimaryKey(userId);
-			if(old==null) {
-				return ResultUtil.error("非法操作");
-			}
-			if(!old.getUserPwd().equals(PassCodeChange.encode(oldPass))) {
-				return ResultUtil.error("旧密码错误");
-			}
-
-			User user=new User();
-			user.setUserId(userId);
-			user.setUserPwd(PassCodeChange.encode(newPass));
-			iUserMapper.updateByPrimaryKeySelective(user);
-			return ResultUtil.success("成功");
-		} catch (Exception e) {
-			logger.error(e + "依据ID获取系统用户表详情异常");
-			return ResultUtil.error("重置密码失败，请检查新旧密码是否合法");
-		}
-	}
-	/**
-	 * 依据ID获取系统用户表详情 Auther:feng
-	 */
-	@GetMapping("getImageVerifyCode")
-	@ApiOperation("生成图片验证码")
-	public void getImageVerifyCode(HttpServletRequest request,HttpServletResponse response,String vtime) {
-		try {
-			if(StringUtils.isNull(vtime)) {
-				return;
-			}
-			response.addHeader("Content-Type", "image/gif;charset=utf-8");
-			VerifyCode verifyCode = new VerifyCode();
-			BufferedImage bi = verifyCode.getImage(); // 生成图片
-			GlobayConst.VerifyCode.put("", verifyCode.getText());
-			logger.debug("验证码："+verifyCode.getText());
-			verifyCache.put(GlobayConst.LoginVerifyCodeKey+vtime, verifyCode.getText());
-	        request.getSession().setAttribute("session_verifyCode", verifyCode.getText()); // 保存图片上的文本到session域中
-	        VerifyCode.output(bi, response.getOutputStream());// 把图片响应给客户端
-		} catch (Exception e) {
-			logger.error(e + "依据ID获取系统用户表详情异常");
-		}
-	}
+    @RequestMapping(value = "uploadFile", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultObject uploadFile(@RequestParam("file") MultipartFile file,HttpServletRequest request,String sfileName
+    		) {
+    	try {
+    		if (file.isEmpty()) {
+    			return ResultUtil.error("文件是空的");
+    		}
+    		String filedir="file/";
+    		String hz= file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+    		if(limitFile.indexOf(hz.toLowerCase())<0) {
+    			return ResultUtil.error("文件异常，只能上传"+limitFile+"的格式文件");
+    		}
+    		String fileName = System.currentTimeMillis() + UUID.randomUUID().toString()+hz;
+    		FileUtil.writeBytes(file.getBytes(), hostPath +filedir+ fileName);
+    		String url=webImgPath.replaceAll("\\*\\*",filedir+ fileName);
+    		String uh=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+contextPath+"/";
+    		FileSystem im=new FileSystem();
+    		im.setFileName(sfileName);
+    		im.setFileUrl(uh+url);
+    		im.setFilePath(filedir+fileName);
+    		ResultObject ro=fileSystemService.addNewFileSystem(im);
+    		if(!ro.isSuccess()) {
+    			return ResultUtil.error("添加失败");
+    		}
+    		return ResultUtil.success();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    		logger.warn("上传文件失败！");
+    		return ResultUtil.error("上传文件失败");
+    	}
+    }
 }

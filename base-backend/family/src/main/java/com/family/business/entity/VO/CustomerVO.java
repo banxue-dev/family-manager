@@ -1,14 +1,9 @@
 package com.family.business.entity.VO; 
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import com.family.utils.StringUtils;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Date;
 /** 
 * Customer实体层 
 * Auther:feng

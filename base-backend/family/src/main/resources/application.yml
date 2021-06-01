@@ -64,5 +64,5 @@ logging:
      com.family.*.*: debug
 uploadFile:
   webImgPath: images/**
-  hostPath: /home/webuser/userHeadImg/
+  hostPath: /home/webuser/
 goldtimesinterface: http://120.25.103.3/NewHtjApi
