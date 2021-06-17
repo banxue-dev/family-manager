@@ -86,6 +86,7 @@ Logger logger=LoggerFactory.getLogger(PersonalInfoController.class);	/**
 			res.setPersonalInfo(pv);
 			UserDiyGroupConfigDO udgc=new UserDiyGroupConfigDO();
 			udgc.setOrgCode(orgCode);
+			udgc.setGroupType(groupType==null?0:groupType);
 			List<UserDiyGroupConfigVO> udgv=userDiyGroupConfigService.getUserDiyGroupConfigList(udgc);
 			
 			UserDiyMetalConfigDO udmc=new UserDiyMetalConfigDO();
