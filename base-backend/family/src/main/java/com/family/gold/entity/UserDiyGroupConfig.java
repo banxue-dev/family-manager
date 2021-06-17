@@ -39,6 +39,18 @@ public class UserDiyGroupConfig {
 	@Column(name="create_time")
 	@ApiModelProperty(value = "创建时间")
 	private String createTime;
+	
+	@ApiModelProperty(value = "分组类型0手机1电脑")
+	private Integer groupType;
+	
+	
+
+	public Integer getGroupType() {
+		return groupType;
+	}
+	public void setGroupType(Integer groupType) {
+		this.groupType = groupType;
+	}
 
 
 	

@@ -53,14 +53,14 @@ public class BeanUtil {
 	private boolean importMath = false;
 	private String ServerName = "www.banxue.fun:3306";// localhost:3306IP和端口号
 //	private String BaseName = "shop_service_user";// 数据库名称
-	private String BaseName = "family";// 数据库名称
+	private String BaseName = "ossdb";// 数据库名称
 //	private String BaseName = "shop_service_market";// 数据库名称
 	private String UserName = "root";// 用户名
 	private String PassWord = "feng.123";// 密码
 	private String rootPath = "D://JavaBean/";
 	// 包名
-	private String packageName = "com.family.normal.";
-	private String utilpackageName = "com.family.utils.";
+	private String packageName = "com.huawei.ncdx.event.";
+	private String utilpackageName = "com.huawei.ncdx.utils.";
 	private String EntityPackge = packageName + "entity";
 	private String EntityVOPackge = EntityPackge + ".VO";
 	private String EntityDOPackge = EntityPackge + ".DO";
@@ -69,8 +69,8 @@ public class BeanUtil {
 	private String DaoPackge = packageName + "mapper";
 	// private String ToolPackge=packageName+"Tool";
 	Boolean isSingle = true;// 是否指定表来生成
-	private String Pre_fix = "normal_";// 要去掉的表名前缀
-	String SingleTableName = "normal_file_system";// 上面isSingle=true的话，就在这指定你要生成的表
+	private String Pre_fix = "tb_ncdx_";// 要去掉的表名前缀
+	String SingleTableName = "tb_ncdx_event_user";// 上面isSingle=true的话，就在这指定你要生成的表
 //	String SingleTableName = "wb_banner_info,wb_case_info,wb_contact_info,wb_group_config,wb_leaving_message_info,wb_navigation_menu_info,wb_news_info,wb_service_range_info,wb_friendship_link_info";// 上面isSingle=true的话，就在这指定你要生成的表
 	public static Connection conn = null;
 	ResultSetMetaData rsmd = null;

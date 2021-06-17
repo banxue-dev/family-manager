@@ -31,8 +31,17 @@ public class UserDiyGroupConfigDO {
 	private String createTime;
 	@ApiModelProperty(value = "分组编码")
 	private Integer groupCode;
+	@ApiModelProperty(value = "分组类型0手机1电脑")
+	private Integer groupType;
+	
 	
 
+	public Integer getGroupType() {
+		return groupType;
+	}
+	public void setGroupType(Integer groupType) {
+		this.groupType = groupType;
+	}
 	public Integer getGroupCode() {
 		return groupCode;
 	}

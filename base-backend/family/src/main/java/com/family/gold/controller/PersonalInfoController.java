@@ -71,7 +71,7 @@ Logger logger=LoggerFactory.getLogger(PersonalInfoController.class);	/**
 	@PostMapping("api/getPersonalInfoSingleByOrgCode") 
 	@ApiOperation("依据组织机构获取业务下的客户详情--包括所有数据") 
 	@ApiImplicitParams({ @ApiImplicitParam(name = "orgCode", value = "业务下的客户的orgCode", required = false,example="1") })
-	public  ResultObject getPersonalInfoSingleByOrgCode(String orgCode) {  
+	public  ResultObject getPersonalInfoSingleByOrgCode(String orgCode,Integer groupType) {  
 		try{ 
 			if(StringUtils.isNull(orgCode)) {
 				return ResultUtil.error("重要参数不正确");
