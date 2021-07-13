@@ -68,7 +68,19 @@ public class PersonalInfoDO {
 	@ApiModelProperty(value="模板调价题头")
 	private String tmpChangeHtml;
 	
+	@ApiModelProperty(value="pc的json")
+	private String pcHtmlJson;
 	
+	
+
+	
+	
+	public String getPcHtmlJson() {
+		return pcHtmlJson;
+	}
+	public void setPcHtmlJson(String pcHtmlJson) {
+		this.pcHtmlJson = pcHtmlJson;
+	}
 
 	
 	
