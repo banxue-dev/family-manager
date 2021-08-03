@@ -82,6 +82,7 @@ public class MenuServiceImpl implements IMenuService {
 		Example roleMenuExample = new Example(RoleMenu.class);
 		Example.Criteria criteria = roleMenuExample.createCriteria();
 		criteria.andIn("roleId", menuDO.getRoleIds());
+		example.setOrderByClause("menu_sort asc");
 		List<RoleMenu> haveMenu=iRoleMenuMapper.selectByExample(roleMenuExample);
 		List<Integer> haveIds=new ArrayList<>();
 		if(haveMenu.size()>0) {

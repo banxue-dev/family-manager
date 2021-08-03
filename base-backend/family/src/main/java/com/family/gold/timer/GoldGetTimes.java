@@ -60,4 +60,27 @@ public class GoldGetTimes {
 			logger.error("异常："+e);
 		}
 	}
+	public static void main(String[] args) {
+		try {
+
+	    	long start=new Date().getTime();
+	    	String soures=HttpUtils.sendGet("http://120.25.103.3/NewHtjApi", "");
+	    	long end=new Date().getTime();
+	    	if(StringUtils.isNotNull(soures) && !soures.contains("Exception")) {
+
+				if(data.size()>=max) {
+					//data.remove(data.size()-1);
+					data.remove(0);
+				}
+//				data.add(0, soures);
+				data.add(soures);
+	    		//logger.debug("调用成功"+"时间："+(end-start)+"秒"+"--"+data.size());
+	    	}else {
+	    		logger.error("调用失败"+"时间："+(end-start)+"秒"+"--"+data.size()+""+soures);
+	    	}
+		}catch(Exception e) {
+			e.printStackTrace();
+			logger.error("异常："+e);
+		}
+	}
 }
